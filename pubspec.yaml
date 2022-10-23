@@ -1,0 +1,39 @@
+name: ivory
+description: A new Flutter project.
+
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.18.2 <3.0.0"
+
+dependencies:
+  cupertino_icons: ^1.0.2
+  dots_indicator: ^2.1.0
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^8.1.1
+  flutter_svg: ^1.1.5
+  freezed_annotation: ^2.1.0
+  google_fonts: ^3.0.1
+  sliding_clipped_nav_bar: ^3.1.0+3
+  super_rich_text: ^1.0.0
+  json_annotation: ^4.7.0
+  json_serializable: ^6.4.0
+  animations: ^2.0.7
+
+dev_dependencies:
+  build_runner: ^2.2.1
+  flutter_lints: ^2.0.0
+  flutter_test:
+    sdk: flutter
+  freezed: ^2.2.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - asset/images/
+    - asset/svgs/
+    # - images/a_dot_ham.jpeg
