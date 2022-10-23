@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ivory/applicatoin/bloc/login/login_bloc.dart';
+import 'package:ivory/applicatoin/cubits/bottomNavigation/bottom_navigation_cubit.dart';
 import 'package:ivory/presentation/core/themes/themes.dart';
 import 'package:ivory/presentation/screen_splash/screen_splash.dart';
 
@@ -19,6 +20,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => OnboardingCubit(),
+        ),
+        BlocProvider(
+          create: (context) => BottomNavigationCubit(),
         ),
         BlocProvider(
           create: (context) => LoginBloc(),

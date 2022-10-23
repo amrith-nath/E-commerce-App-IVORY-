@@ -1,89 +1,117 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ivory/applicatoin/controller/controllers.dart';
+import 'package:ivory/applicatoin/cubits/onboarding/onboarding_cubit.dart';
 import 'package:ivory/presentation/core/constant/font/google_font.dart';
-import 'package:ivory/presentation/login_screen/login_creen.dart';
 import 'package:ivory/presentation/screens_onboarding/widgets/dot_indicator.dart';
 import 'package:ivory/presentation/screens_onboarding/widgets/elevated_button_widget.dart';
-import 'package:super_rich_text/super_rich_text.dart';
 import '../core/models/models.dart';
-import '../widgets/rich_text_widget.dart';
+import '../screen_home/screen_home.dart';
 
 // ignore: must_be_immutable
-class ScreenOnboarding extends StatefulWidget {
+class ScreenOnboarding extends StatelessWidget {
   ScreenOnboarding({Key? key}) : super(key: key);
   int index = 0;
-  @override
-  State<ScreenOnboarding> createState() => _ScreenOnboardingState();
-}
 
-class _ScreenOnboardingState extends State<ScreenOnboarding> {
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      BlocProvider.of<OnboardingCubit>(context)
+          .getCurrentIndex(currentIndex: 0);
+    });
+
     var buttonText = 'Next';
+
     List imageWidgets = [
-      imageWidget(context, 'asset/images/onboard_1.jpg'),
-      imageWidget(context, 'asset/images/onboard_2.jpg'),
-      imageWidget(context, 'asset/images/onboard_3.jpg'),
+      Scaffold(
+        key: const Key('1'),
+        body: Image.asset(
+          'asset/images/onboard_1.jpg',
+          fit: BoxFit.cover,
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+        ),
+      ),
+      Scaffold(
+        key: const Key('2'),
+        body: Image.asset(
+          'asset/images/onboard_2.jpg',
+          fit: BoxFit.cover,
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+        ),
+      ),
+      Scaffold(
+        key: const Key('3'),
+        body: Image.asset(
+          'asset/images/onboard_3.jpg',
+          fit: BoxFit.cover,
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+        ),
+      ),
     ];
 
     return Scaffold(
       body: Stack(
         children: [
-          PageTransitionSwitcher(
-            duration: const Duration(seconds: 10),
-            transitionBuilder: (child, primaryAnimation, secondaryAnimation) {
-              return FadeThroughTransition(
-                animation: primaryAnimation,
-                secondaryAnimation: secondaryAnimation,
-                child: child,
+          BlocBuilder<OnboardingCubit, OnboardingState>(
+            builder: (context, state) {
+              return PageTransitionSwitcher(
+                duration: const Duration(milliseconds: 200),
+                transitionBuilder:
+                    (child, primaryAnimation, secondaryAnimation) {
+                  return SharedAxisTransition(
+                    transitionType: SharedAxisTransitionType.scaled,
+                    animation: primaryAnimation,
+                    secondaryAnimation: secondaryAnimation,
+                    child: child,
+                  );
+                },
+                child: imageWidgets[state.index],
               );
             },
-            child: imageWidgets[widget.index],
           ),
           gradiantLayer(context),
           Align(
               alignment: Alignment.bottomCenter,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  SizedBox(
-                    // color: Colors.amber.withOpacity(0.3),
-                    height: MediaQuery.of(context).size.height * 0.7,
-                    child: PageView.builder(
-                      controller: onboardController,
-                      itemCount: tabs.length,
-                      itemBuilder: (context, index) => Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                        ),
-                        child: tabs[index],
+              child: BlocBuilder<OnboardingCubit, OnboardingState>(
+                builder: (context, state) {
+                  if (state.index == 2) {
+                    buttonText = "Start";
+                  } else {
+                    buttonText = 'Next';
+                  }
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      SizedBox(
+                        // color: Colors.amber.withOpacity(0.3),
+                        height: MediaQuery.of(context).size.height * 0.7,
+                        child: const PageViewWidget(),
                       ),
-                      onPageChanged: (index) {
-                        setState(() {
-                          widget.index = index;
-                        });
-                      },
-                    ),
-                  ),
-                  DotIndicator(
-                    index: widget.index,
-                  ),
-                  ElevatedButtonWidget(
-                    title: buttonText,
-                    titleStyle: GoogleFont.textButtonStyle,
-                    color: Colors.white,
-                    onPressed: () {
-                      if (onboardController.page == 2) {
-                        Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (ctx) => ScreenLogin()));
-                      }
-                      onboardController.nextPage(
-                          duration: const Duration(milliseconds: 400),
-                          curve: Curves.decelerate);
-                    },
-                  ),
-                ],
+                      DotIndicator(
+                        index: state.index,
+                      ),
+                      ElevatedButtonWidget(
+                        title: buttonText,
+                        titleStyle: GoogleFont.textButtonStyle,
+                        color: Colors.white,
+                        onPressed: () {
+                          if (onboardController.page == 2) {
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (ctx) => const ScreenHome()));
+                          }
+                          onboardController.nextPage(
+                              duration: const Duration(milliseconds: 400),
+                              curve: Curves.decelerate);
+                        },
+                      ),
+                    ],
+                  );
+                },
               )),
           Positioned(
               top: 50,
@@ -106,12 +134,14 @@ class _ScreenOnboardingState extends State<ScreenOnboarding> {
     );
   }
 
-  Image imageWidget(BuildContext context, String image) {
-    return Image.asset(
-      image,
-      fit: BoxFit.cover,
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
+  imageWidget(BuildContext context, String image) {
+    return Scaffold(
+      body: Image.asset(
+        image,
+        fit: BoxFit.cover,
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+      ),
     );
   }
 
@@ -131,6 +161,30 @@ class _ScreenOnboardingState extends State<ScreenOnboarding> {
       ),
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
+    );
+  }
+}
+
+class PageViewWidget extends StatelessWidget {
+  const PageViewWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return PageView.builder(
+      controller: onboardController,
+      itemCount: tabs.length,
+      itemBuilder: (context, index) => Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
+        ),
+        child: tabs[index],
+      ),
+      onPageChanged: (index) {
+        BlocProvider.of<OnboardingCubit>(context)
+            .getCurrentIndex(currentIndex: index);
+      },
     );
   }
 }

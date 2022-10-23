@@ -169,6 +169,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.4"
+  dot_navigation_bar:
+    dependency: "direct main"
+    description:
+      name: dot_navigation_bar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1+4"
   dots_indicator:
     dependency: "direct main"
     description:
@@ -532,13 +539,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
-  sliding_clipped_nav_bar:
-    dependency: "direct main"
-    description:
-      name: sliding_clipped_nav_bar
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.1.0+3"
   source_gen:
     dependency: transitive
     description:
