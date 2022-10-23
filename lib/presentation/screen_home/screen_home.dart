@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:ivory/presentation/core/constant/font/google_font.dart';
+import 'package:ivory/presentation/core/constant/color/colors.dart';
+import 'package:ivory/presentation/screen_home/widget/app_bar_widget.dart';
 import 'package:ivory/presentation/screen_home/widget/bottom_navigation_widget.dart';
-import 'package:super_rich_text/super_rich_text.dart';
 
 class ScreenHome extends StatelessWidget {
   const ScreenHome({Key? key}) : super(key: key);
@@ -14,66 +14,48 @@ class ScreenHome extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(size.width, 100),
-        child: PhysicalModel(
-          color: Colors.white,
-          elevation: 5,
-          child: Container(
-            width: size.width,
-            height: 100,
-            child: Row(
+        child: AppBarWidget(size: size),
+      ),
+      body: Column(
+        children: [
+          Container(
+            height: 40,
+            width: double.infinity,
+            margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+            decoration: BoxDecoration(
+              border: Border.all(color: xPurple),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Stack(
               children: [
-                SuperRichText(
-                  text: 'IvyyOyyry',
-                  style: GoogleFont.appBarTextStyle,
-                  othersMarkers: [
-                    MarkerText(
-                        marker: 'yy', style: GoogleFont.appBarTextStyleYellow),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 15.0),
-                      child: SvgPicture.asset('asset/svgs/scan.svg'),
+                Positioned(
+                  right: 0,
+                  child: Container(
+                    height: 40,
+                    width: 60,
+                    decoration: const BoxDecoration(
+                      border: Border(
+                        left: BorderSide(
+                          color: xPurple,
+                          style: BorderStyle.solid,
+                        ),
+                      ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: SvgPicture.asset(
-                          'asset/svgs/message-square-fill.svg'),
+                        'asset/svgs/search.svg',
+                        width: 20,
+                      ),
                     ),
-                  ],
-                )
+                  ),
+                ),
               ],
             ),
           ),
-        ),
-      ),
-      body: Column(
-        children: [],
-      ),
-      bottomNavigationBar: const BottomNavigationWidget(),
-    );
-  }
-
-  AppBar appbarX() {
-    return AppBar(
-      title: SuperRichText(
-        text: 'IvyyOyyry',
-        style: GoogleFont.appBarTextStyle,
-        othersMarkers: [
-          MarkerText(marker: 'yy', style: GoogleFont.appBarTextStyleYellow),
         ],
       ),
-      actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 15.0),
-          child: SvgPicture.asset('asset/svgs/scan.svg'),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset('asset/svgs/message-square-fill.svg'),
-        ),
-      ],
+      bottomNavigationBar: const BottomNavigationWidget(),
     );
   }
 }

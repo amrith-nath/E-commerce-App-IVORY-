@@ -72,12 +72,12 @@ class GoogleFont {
     color: const Color.fromARGB(255, 0, 0, 0),
   );
   static final TextStyle appBarTextStyle = GoogleFonts.dmSans(
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: FontWeight.w700,
     color: const Color.fromARGB(255, 0, 0, 0),
   );
   static final TextStyle appBarTextStyleYellow = GoogleFonts.dmSans(
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: FontWeight.w700,
     color: const Color(0xffFFD233),
   );

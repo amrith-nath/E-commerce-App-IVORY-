@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ivory/presentation/screens_onboarding/screen_onboarding.dart';
 
 import '../core/constant/color/colors.dart';
@@ -10,6 +11,9 @@ class ScreenSplash extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+    ));
     WidgetsBinding.instance.addPostFrameCallback((_) {
       navigateFromSplash(context);
     });
