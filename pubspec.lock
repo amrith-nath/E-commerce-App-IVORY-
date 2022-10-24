@@ -380,6 +380,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  mirai_dropdown_menu:
+    dependency: "direct main"
+    description:
+      name: mirai_dropdown_menu
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.6+1"
   nested:
     dependency: transitive
     description:

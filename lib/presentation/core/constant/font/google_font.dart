@@ -61,6 +61,21 @@ class GoogleFont {
     fontWeight: FontWeight.w600,
     color: const Color.fromARGB(255, 2, 2, 2),
   );
+  static final TextStyle homeBodyText = GoogleFonts.dmSans(
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    color: Colors.black,
+  );
+  static final TextStyle loginSubTextWhite = GoogleFonts.dmSans(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: const Color.fromARGB(255, 255, 255, 255),
+  );
+  static final TextStyle bannerSubTextWhite = GoogleFonts.dmSans(
+    fontSize: 12,
+    fontWeight: FontWeight.w600,
+    color: const Color.fromARGB(255, 255, 255, 255),
+  );
   static final TextStyle loginSubTextyellow = GoogleFonts.dmSans(
     fontSize: 16,
     fontWeight: FontWeight.w600,
@@ -80,5 +95,20 @@ class GoogleFont {
     fontSize: 32,
     fontWeight: FontWeight.w700,
     color: const Color(0xffFFD233),
+  );
+  static final TextStyle bannerSmallText = GoogleFonts.dmSans(
+    fontSize: 8,
+    fontWeight: FontWeight.w700,
+    color: const Color.fromARGB(255, 255, 255, 255),
+  );
+  static final TextStyle dropDownText = GoogleFonts.dmSans(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: Color.fromARGB(255, 0, 0, 0),
+  );
+  static final TextStyle bannerLargeText = GoogleFonts.dmSans(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: Colors.white,
   );
 }

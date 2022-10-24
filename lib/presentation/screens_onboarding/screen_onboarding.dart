@@ -8,6 +8,7 @@ import 'package:ivory/presentation/screens_onboarding/widgets/dot_indicator.dart
 import 'package:ivory/presentation/screens_onboarding/widgets/elevated_button_widget.dart';
 import '../core/models/models.dart';
 import '../screen_home/screen_home.dart';
+import 'widgets/pageview_widget.dart';
 
 // ignore: must_be_immutable
 class ScreenOnboarding extends StatelessWidget {
@@ -102,7 +103,7 @@ class ScreenOnboarding extends StatelessWidget {
                           if (onboardController.page == 2) {
                             Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                    builder: (ctx) => const ScreenHome()));
+                                    builder: (ctx) => ScreenHome()));
                           }
                           onboardController.nextPage(
                               duration: const Duration(milliseconds: 400),
@@ -161,30 +162,6 @@ class ScreenOnboarding extends StatelessWidget {
       ),
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-    );
-  }
-}
-
-class PageViewWidget extends StatelessWidget {
-  const PageViewWidget({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return PageView.builder(
-      controller: onboardController,
-      itemCount: tabs.length,
-      itemBuilder: (context, index) => Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-        ),
-        child: tabs[index],
-      ),
-      onPageChanged: (index) {
-        BlocProvider.of<OnboardingCubit>(context)
-            .getCurrentIndex(currentIndex: index);
-      },
     );
   }
 }
