@@ -21,7 +21,9 @@ class AppBarWidget extends StatelessWidget {
         width: size.width,
         height: 150,
         child: Padding(
-          padding: const EdgeInsets.only(top: 30.0, left: 20),
+          padding: const EdgeInsets.only(
+            top: 30.0,
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -29,14 +31,17 @@ class AppBarWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SuperRichText(
-                    text: 'IvyyOyyry',
-                    style: GoogleFont.appBarTextStyle,
-                    othersMarkers: [
-                      MarkerText(
-                          marker: 'yy',
-                          style: GoogleFont.appBarTextStyleYellow),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: SuperRichText(
+                      text: 'IvyyOyyry',
+                      style: GoogleFont.appBarTextStyle,
+                      othersMarkers: [
+                        MarkerText(
+                            marker: 'yy',
+                            style: GoogleFont.appBarTextStyleYellow),
+                      ],
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -73,7 +78,7 @@ class AppBarWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Container(
         height: 40,
-        width: MediaQuery.of(context).size.width - 40,
+        width: MediaQuery.of(context).size.width,
         margin: const EdgeInsets.only(
           top: 20,
         ),

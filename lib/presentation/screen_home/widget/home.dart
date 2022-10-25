@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ivory/presentation/core/constant/size/constant_size.dart';
 import 'package:ivory/presentation/widgets/drop_down_widget.dart';
+import 'package:mirai_dropdown_menu/mirai_dropdown_menu.dart';
 import 'package:super_rich_text/super_rich_text.dart';
 
 import '../../core/constant/color/colors.dart';
@@ -69,16 +70,16 @@ class Home extends StatelessWidget {
         ),
       ),
       kHeight10,
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2),
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: 10,
-            itemBuilder: (context, index) => GridItemWidget()),
-      ),
+      GridView.builder(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2, childAspectRatio: 2 / 2.5),
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: 20,
+          itemBuilder: (context, index) => const GridItemWidget(
+                image: 'asset/images/card_1.png',
+              )),
     ];
 
     return RefreshIndicator(

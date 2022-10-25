@@ -61,6 +61,16 @@ class GoogleFont {
     fontWeight: FontWeight.w600,
     color: const Color.fromARGB(255, 2, 2, 2),
   );
+  static final TextStyle cardMainText = GoogleFonts.dmSans(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: const Color.fromARGB(255, 2, 2, 2),
+  );
+  static final TextStyle cardSubText = GoogleFonts.dmSans(
+    fontSize: 10,
+    fontWeight: FontWeight.w600,
+    color: const Color.fromARGB(255, 2, 2, 2),
+  );
   static final TextStyle homeBodyText = GoogleFonts.dmSans(
     fontSize: 20,
     fontWeight: FontWeight.w700,

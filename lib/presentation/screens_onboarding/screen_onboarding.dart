@@ -1,5 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ivory/applicatoin/controller/controllers.dart';
 import 'package:ivory/applicatoin/cubits/onboarding/onboarding_cubit.dart';
@@ -17,6 +18,11 @@ class ScreenOnboarding extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor: Colors.transparent,
+    ));
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       BlocProvider.of<OnboardingCubit>(context)
           .getCurrentIndex(currentIndex: 0);
