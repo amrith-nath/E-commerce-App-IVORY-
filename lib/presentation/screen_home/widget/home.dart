@@ -1,5 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ivory/presentation/core/constant/size/constant_size.dart';
 import 'package:ivory/presentation/screen_product/screen_product.dart';
@@ -24,23 +25,58 @@ class Home extends StatelessWidget {
       "asset/images/banner_4.png",
     ];
 
+    final List<String> productImages = [
+      'asset/images/card_1.png',
+      'asset/images/card_10.png',
+      'asset/images/card_4.png',
+      'asset/images/card_5.png',
+      'asset/images/card_6.png',
+      'asset/images/card_7.png',
+      'asset/images/card_8.png',
+      'asset/images/card_9.png',
+      'asset/images/card_3.jpg',
+      'asset/images/card_11.png',
+      'asset/images/card_12.png',
+      'asset/images/card_13.png',
+      'asset/images/card_14.png',
+      'asset/images/card_15.png',
+      'asset/images/card_16.png',
+      'asset/images/card_17.png',
+    ];
+
     final List<String> dropDownItems = [
-      'All',
-      'Cloths',
+      'Fasion',
       'Shoes',
       'Bags',
       'Watch',
+      'Toys',
     ];
 
     List homeWidgets = [
       kHeight10,
       SizedBox(
-        height: 200,
+        height: 220,
         width: double.infinity,
-        child: PageView.builder(
+        child: Swiper(
+          itemBuilder: (context, index) => imageBanner(
+            bannerImages[index],
+          ),
           itemCount: bannerImages.length,
-          itemBuilder: (context, index) => imageBanner(bannerImages[index]),
+          autoplay: true,
+          curve: Curves.fastOutSlowIn,
+          pagination: const SwiperPagination(
+            margin: EdgeInsets.only(top: 10),
+            builder: DotSwiperPaginationBuilder(
+              color: Colors.grey,
+              size: 5,
+              activeSize: 8,
+            ),
+          ),
         ),
+        // child: PageView.builder(
+        //   itemCount: bannerImages.length,
+        //   itemBuilder: (context, index) => imageBanner(bannerImages[index]),
+        // ),
       ),
       kHeight20,
       Padding(
@@ -77,13 +113,16 @@ class Home extends StatelessWidget {
           ),
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: 20,
+          itemCount: productImages.length,
           itemBuilder: (context, index) => OpenContainer(
                 closedElevation: 0,
                 transitionDuration: const Duration(milliseconds: 500),
                 closedBuilder: (context, action) =>
-                    const GridItemWidget(image: 'asset/images/card_1.png'),
-                openBuilder: (context, action) => const ScreenProduct(),
+                    GridItemWidget(image: productImages[index]),
+                openBuilder: (context, action) => ScreenProduct(
+                  image: productImages,
+                  index: index,
+                ),
               )),
     ];
 

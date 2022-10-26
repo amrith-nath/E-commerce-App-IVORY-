@@ -17,7 +17,7 @@ class BottomNavigationWidget extends StatelessWidget {
         return SalomonBottomBar(
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
-          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
           currentIndex: state.index,
           onTap: (newIndex) {
             BlocProvider.of<BottomNavigationCubit>(context)
@@ -30,7 +30,7 @@ class BottomNavigationWidget extends StatelessWidget {
               title: const Text(
                 "Home",
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 11,
                 ),
               ),
               selectedColor: xHeadTextColor,
@@ -38,11 +38,11 @@ class BottomNavigationWidget extends StatelessWidget {
 
             /// Likes
             SalomonBottomBarItem(
-              icon: const Icon(Icons.favorite_border),
+              icon: SvgPicture.asset('asset/svgs/category-alt.svg'),
               title: const Text(
-                "Wishlist",
+                "Catagories",
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 11,
                 ),
               ),
               selectedColor: xHeadTextColor,
@@ -54,7 +54,7 @@ class BottomNavigationWidget extends StatelessWidget {
               title: const Text(
                 "Alerts",
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 11,
                 ),
               ),
               selectedColor: xHeadTextColor,
@@ -64,7 +64,7 @@ class BottomNavigationWidget extends StatelessWidget {
               title: const Text(
                 "User",
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 11,
                 ),
               ),
               selectedColor: xHeadTextColor,
@@ -79,7 +79,7 @@ class BottomNavigationWidget extends StatelessWidget {
               title: const Text(
                 "Cart",
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 11,
                 ),
               ),
               selectedColor: xHeadTextColor,

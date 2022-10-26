@@ -7,6 +7,12 @@ class GoogleFont {
     fontWeight: FontWeight.w600,
     color: const Color(0xff192129),
   );
+  static final TextStyle productTextMain = GoogleFonts.dmSans(
+    fontSize: 32,
+    fontWeight: FontWeight.w700,
+    fontStyle: FontStyle.italic,
+    color: const Color(0xff192129),
+  );
   static final TextStyle splashStyleWhite = GoogleFonts.dmSans(
     fontSize: 64,
     fontWeight: FontWeight.w600,
@@ -54,6 +60,12 @@ class GoogleFont {
   static final TextStyle loginSubTextGrey = GoogleFonts.dmSans(
     fontSize: 14,
     fontWeight: FontWeight.w600,
+    color: const Color(0xff898989),
+  );
+  static final TextStyle ratingTextGrey = GoogleFonts.dmSans(
+    fontSize: 12,
+    fontWeight: FontWeight.w600,
+    fontStyle: FontStyle.italic,
     color: const Color(0xff898989),
   );
   static final TextStyle loginSubTextBlack = GoogleFonts.dmSans(
