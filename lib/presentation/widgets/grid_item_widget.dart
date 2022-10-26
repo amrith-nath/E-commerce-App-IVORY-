@@ -88,16 +88,24 @@ class GridItemWidget extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const CircleAvatar(
-                      backgroundColor: Colors.grey,
-                      radius: 16,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: 15,
-                        child: Icon(
-                          Icons.favorite_outline_outlined,
-                          color: Colors.black,
-                          size: 15,
+                    GestureDetector(
+                      onTap: () {},
+                      child: const CircleAvatar(
+                        backgroundColor: Colors.grey,
+                        radius: 16,
+                        child: PhysicalModel(
+                          elevation: 3,
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                          child: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            radius: 15,
+                            child: Icon(
+                              Icons.favorite_outline_outlined,
+                              color: Colors.black,
+                              size: 15,
+                            ),
+                          ),
                         ),
                       ),
                     )

@@ -1,5 +1,7 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ivory/presentation/search_screen/search_screen.dart';
 import 'package:super_rich_text/super_rich_text.dart';
 
 import '../../core/constant/font/google_font.dart';
@@ -65,7 +67,13 @@ class AppBarWidget extends StatelessWidget {
                   )
                 ],
               ),
-              searchWidget(context),
+              OpenContainer(
+                closedElevation: 0,
+                transitionType: ContainerTransitionType.fade,
+                transitionDuration: const Duration(milliseconds: 500),
+                closedBuilder: (context, action) => searchWidget(context),
+                openBuilder: (context, action) => const ScreenSearch(),
+              ),
             ],
           ),
         ),

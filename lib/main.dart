@@ -8,6 +8,8 @@ import 'package:ivory/presentation/screen_splash/screen_splash.dart';
 import 'applicatoin/cubits/onboarding/onboarding_cubit.dart';
 
 void main(List<String> args) {
+  WidgetsFlutterBinding.ensureInitialized();
+
   return runApp(const MyApp());
 }
 

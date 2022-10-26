@@ -1,11 +1,10 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ivory/presentation/core/constant/size/constant_size.dart';
+import 'package:ivory/presentation/screen_product/screen_product.dart';
 import 'package:ivory/presentation/widgets/drop_down_widget.dart';
-import 'package:mirai_dropdown_menu/mirai_dropdown_menu.dart';
 import 'package:super_rich_text/super_rich_text.dart';
-
-import '../../core/constant/color/colors.dart';
 import '../../core/constant/font/google_font.dart';
 import '../../widgets/grid_item_widget.dart';
 
@@ -73,12 +72,18 @@ class Home extends StatelessWidget {
       GridView.builder(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, childAspectRatio: 2 / 2.5),
+            crossAxisCount: 2,
+            childAspectRatio: 2 / 2.5,
+          ),
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: 20,
-          itemBuilder: (context, index) => const GridItemWidget(
-                image: 'asset/images/card_1.png',
+          itemBuilder: (context, index) => OpenContainer(
+                closedElevation: 0,
+                transitionDuration: const Duration(milliseconds: 500),
+                closedBuilder: (context, action) =>
+                    const GridItemWidget(image: 'asset/images/card_1.png'),
+                openBuilder: (context, action) => const ScreenProduct(),
               )),
     ];
 
@@ -151,7 +156,6 @@ class Home extends StatelessWidget {
             ),
           ),
           Container(
-            width: double.infinity,
             height: 200,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
