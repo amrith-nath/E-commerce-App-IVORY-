@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:ivory/presentation/core/constant/color/colors.dart';
 import 'package:ivory/presentation/core/constant/font/google_font.dart';
 import 'package:ivory/presentation/core/constant/size/constant_size.dart';
+import 'package:ivory/presentation/widgets/search_delegate.dart';
 
 class ScreenProduct extends StatelessWidget {
   const ScreenProduct({Key? key, required this.image, required this.index})
@@ -21,10 +22,15 @@ class ScreenProduct extends StatelessWidget {
         elevation: 5,
         backgroundColor: Colors.white,
         actions: [
-          SvgPicture.asset(
-            'asset/svgs/search.svg',
-            width: 20,
-            color: Colors.black,
+          GestureDetector(
+            onTap: () {
+              showSearch(context: context, delegate: ProductSearchDelegate());
+            },
+            child: SvgPicture.asset(
+              'asset/svgs/search.svg',
+              width: 20,
+              color: Colors.black,
+            ),
           ),
           const SizedBox(
             width: 20,
@@ -82,31 +88,11 @@ class ScreenProduct extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            const Icon(
-                              Icons.star_outline,
-                              color: xYellow,
-                              size: 15,
-                            ),
-                            const Icon(
-                              Icons.star_outline,
-                              color: xYellow,
-                              size: 15,
-                            ),
-                            const Icon(
-                              Icons.star_outline,
-                              color: xYellow,
-                              size: 15,
-                            ),
-                            const Icon(
-                              Icons.star_outline,
-                              color: Colors.grey,
-                              size: 15,
-                            ),
-                            const Icon(
-                              Icons.star_outline,
-                              color: Colors.grey,
-                              size: 15,
-                            ),
+                            ratingStarWidget(xYellow),
+                            ratingStarWidget(xYellow),
+                            ratingStarWidget(xYellow),
+                            ratingStarWidget(Colors.grey),
+                            ratingStarWidget(Colors.grey),
                             Text(
                               '  4.4 (208)',
                               style: GoogleFont.ratingTextGrey,
@@ -143,6 +129,7 @@ class ScreenProduct extends StatelessWidget {
                   color: Colors.grey.shade600,
                   height: 1,
                 ),
+                kHeight10,
                 Text(
                   'Description',
                   style: GoogleFont.loginSubTextBlack,
@@ -150,7 +137,53 @@ class ScreenProduct extends StatelessWidget {
                 Text(
                   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation',
                   style: GoogleFont.loginSubTextGrey,
-                )
+                ),
+                kHeight10,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Colors',
+                          style: GoogleFont.loginSubTextBlack,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5.0),
+                          child: Row(
+                            children: [
+                              productColorWidget(0xff003049),
+                              productColorWidget(0xffD62828),
+                              productColorWidget(0xffF77F00),
+                              productColorWidget(0xff219ebc),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Size',
+                          style: GoogleFont.loginSubTextBlack,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5.0),
+                          child: Row(
+                            children: [
+                              productSizeWidget('S'),
+                              productSizeWidget('M'),
+                              productSizeWidget('L'),
+                              productSizeWidget('XL'),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ],
             ),
           )
@@ -158,8 +191,66 @@ class ScreenProduct extends StatelessWidget {
       ),
       bottomNavigationBar: Container(
         width: double.infinity,
+        margin: const EdgeInsets.symmetric(horizontal: 20),
         height: 60,
-        color: Colors.amber,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              '2,500',
+              style: GoogleFont.homeBodyText,
+            ),
+            SizedBox(
+                width: MediaQuery.of(context).size.width / 2,
+                height: 60,
+                child: ElevatedButton.icon(
+                    onPressed: () {},
+                    icon: SvgPicture.asset(
+                      'asset/svgs/shopping-cart.svg',
+                      width: 25,
+                    ),
+                    label: Text(
+                      'Add to Cart',
+                      style: GoogleFont.loginSubTextBlack,
+                    )))
+          ],
+        ),
+      ),
+    );
+  }
+
+  Icon ratingStarWidget(Color color) {
+    return Icon(
+      Icons.star_outline,
+      color: color,
+      size: 15,
+    );
+  }
+
+  Padding productColorWidget(int color) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 5.0),
+      child: CircleAvatar(
+        backgroundColor: Color(color),
+        radius: 15,
+      ),
+    );
+  }
+
+  Padding productSizeWidget(String text) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 5.0),
+      child: CircleAvatar(
+        backgroundColor: const Color(0xff003049),
+        radius: 15,
+        child: CircleAvatar(
+          backgroundColor: Colors.white,
+          radius: 14,
+          child: Text(
+            text,
+            style: GoogleFont.loginSubTextBlack,
+          ),
+        ),
       ),
     );
   }

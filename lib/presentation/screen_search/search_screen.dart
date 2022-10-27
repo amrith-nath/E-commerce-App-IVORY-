@@ -12,7 +12,7 @@ class ScreenSearch extends StatelessWidget {
         await Future.delayed(const Duration(milliseconds: 350));
         showSearch(
           context: context,
-          delegate: CustomSearchDelegate(),
+          delegate: MainSearchDelegate(),
           useRootNavigator: true,
         );
       },

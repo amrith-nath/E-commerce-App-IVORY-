@@ -70,7 +70,7 @@ class GoogleFont {
   );
   static final TextStyle loginSubTextBlack = GoogleFonts.dmSans(
     fontSize: 16,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     color: const Color.fromARGB(255, 2, 2, 2),
   );
   static final TextStyle cardMainText = GoogleFonts.dmSans(
