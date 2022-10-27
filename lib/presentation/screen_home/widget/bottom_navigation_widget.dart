@@ -42,7 +42,7 @@ class BottomNavigationWidget extends StatelessWidget {
               title: const Text(
                 "Catagories",
                 style: TextStyle(
-                  fontSize: 11,
+                  fontSize: 10,
                 ),
               ),
               selectedColor: xHeadTextColor,
@@ -54,7 +54,7 @@ class BottomNavigationWidget extends StatelessWidget {
               title: const Text(
                 "Alerts",
                 style: TextStyle(
-                  fontSize: 11,
+                  fontSize: 10,
                 ),
               ),
               selectedColor: xHeadTextColor,
@@ -64,7 +64,7 @@ class BottomNavigationWidget extends StatelessWidget {
               title: const Text(
                 "User",
                 style: TextStyle(
-                  fontSize: 11,
+                  fontSize: 10,
                 ),
               ),
               selectedColor: xHeadTextColor,
@@ -79,7 +79,7 @@ class BottomNavigationWidget extends StatelessWidget {
               title: const Text(
                 "Cart",
                 style: TextStyle(
-                  fontSize: 11,
+                  fontSize: 10,
                 ),
               ),
               selectedColor: xHeadTextColor,
@@ -90,38 +90,3 @@ class BottomNavigationWidget extends StatelessWidget {
     );
   }
 }
-// DotNavigationBar(
-//           enableFloatingNavBar: true,
-
-//           currentIndex: state.index,
-//           onTap: (index) {
-//             BlocProvider.of<BottomNavigationCubit>(context)
-//                 .getCurrentIndex(currentIndex: index);
-//           },
-//           // dotIndicatorColor: Colors.black,
-//           items: [
-//             /// Home
-//             DotNavigationBarItem(
-//               icon: Icon(Icons.home),
-//               selectedColor: Colors.purple,
-//             ),
-
-//             /// Likes
-//             DotNavigationBarItem(
-//               icon: Icon(Icons.favorite_border),
-//               selectedColor: Colors.pink,
-//             ),
-
-//             /// Search
-//             DotNavigationBarItem(
-//               icon: Icon(Icons.search),
-//               selectedColor: Colors.orange,
-//             ),
-
-//             /// Profile
-//             DotNavigationBarItem(
-//               icon: Icon(Icons.person),
-//               selectedColor: Colors.teal,
-//             ),
-//           ],
-//         );
