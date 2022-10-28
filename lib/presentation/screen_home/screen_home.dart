@@ -8,7 +8,7 @@ import 'package:ivory/presentation/screen_cart/screen_cart.dart';
 import 'package:ivory/presentation/screen_home/widget/app_bar_widget.dart';
 import 'package:ivory/presentation/screen_home/widget/home.dart';
 import 'package:ivory/presentation/screen_profile/screen_profile.dart';
-import 'package:ivory/presentation/screen_wishlist/screen_wishlist.dart';
+import 'package:ivory/presentation/screen_catagories/screen_catagories.dart';
 
 import 'widget/bottom_navigation_widget.dart';
 
@@ -26,7 +26,7 @@ class ScreenHome extends StatelessWidget {
       Home(
         key: Key('home'),
       ),
-      ScreenWishlist(
+      ScreenCatagories(
         key: Key('wishlist'),
       ),
       ScreenAlerts(
