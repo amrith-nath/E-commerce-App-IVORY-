@@ -8,7 +8,7 @@ import 'package:ivory/presentation/screen_cart/screen_cart.dart';
 import 'package:ivory/presentation/screen_home/widget/app_bar_widget.dart';
 import 'package:ivory/presentation/screen_home/widget/home.dart';
 import 'package:ivory/presentation/screen_profile/screen_profile.dart';
-import 'package:ivory/presentation/screen_catagories/screen_catagories.dart';
+import 'package:ivory/presentation/screen_categories/screen_categories.dart';
 
 import 'widget/bottom_navigation_widget.dart';
 
@@ -22,20 +22,20 @@ class ScreenHome extends StatelessWidget {
     ));
     var size = MediaQuery.of(context).size;
 
-    List<Widget> navigationRoutes = const [
-      Home(
+    List<Widget> navigationRoutes = [
+      const Home(
         key: Key('home'),
       ),
-      ScreenCatagories(
-        key: Key('wishlist'),
+      ScreenCategories(
+        key: const Key('wishlist'),
       ),
-      ScreenAlerts(
+      const ScreenAlerts(
         key: Key('alerts'),
       ),
-      ScreenProfile(
+      const ScreenProfile(
         key: Key('profile'),
       ),
-      ScreenCart(
+      const ScreenCart(
         key: Key('cart'),
       ),
     ];

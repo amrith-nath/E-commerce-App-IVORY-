@@ -228,8 +228,8 @@ class ScreenProduct extends StatelessWidget {
                       ),
                     ),
                     icon: SvgPicture.asset(
-                      'asset/svgs/shopping-cart.svg',
-                      width: 25,
+                      'asset/svgs/bag-shopping.svg',
+                      width: 18,
                     ),
                     label: Text(
                       'Add to Cart',

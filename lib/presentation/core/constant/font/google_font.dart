@@ -88,6 +88,16 @@ class GoogleFont {
     fontWeight: FontWeight.w700,
     color: Colors.black,
   );
+  static final TextStyle appbarSwapText = GoogleFonts.dmSans(
+    fontSize: 24,
+    fontWeight: FontWeight.w700,
+    color: Colors.black,
+  );
+  static final TextStyle catagoryTextStyle = GoogleFonts.dmSans(
+    fontSize: 24,
+    fontWeight: FontWeight.w600,
+    color: Colors.grey.shade600,
+  );
   static final TextStyle loginSubTextWhite = GoogleFonts.dmSans(
     fontSize: 16,
     fontWeight: FontWeight.w600,
