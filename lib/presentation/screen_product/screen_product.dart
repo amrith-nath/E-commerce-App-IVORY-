@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -41,7 +39,7 @@ class ScreenProduct extends StatelessWidget {
         children: [
           SizedBox(
             width: double.infinity,
-            height: MediaQuery.of(context).size.height / 2,
+            height: MediaQuery.of(context).size.height / 2.2,
             // decoration: BoxDecoration(
             //   image: DecorationImage(
             //       image: AssetImage(image), fit: BoxFit.cover),
@@ -184,27 +182,51 @@ class ScreenProduct extends StatelessWidget {
                     ),
                   ],
                 ),
+                kHeight,
               ],
             ),
           )
         ],
       ),
       bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(
+              color: Colors.grey.shade300,
+            ),
+          ),
+        ),
         width: double.infinity,
         margin: const EdgeInsets.symmetric(horizontal: 20),
-        height: 60,
+        height: 80,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              '2,500',
-              style: GoogleFont.homeBodyText,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '\$ 2,400',
+                  style: GoogleFont.homeBodyText,
+                ),
+                Text(
+                  "Total Price",
+                  style: GoogleFont.dropDownText,
+                ),
+              ],
             ),
             SizedBox(
-                width: MediaQuery.of(context).size.width / 2,
+                width: MediaQuery.of(context).size.width / 1.8,
                 height: 60,
                 child: ElevatedButton.icon(
                     onPressed: () {},
+                    style: ButtonStyle(
+                      shape: MaterialStatePropertyAll(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                    ),
                     icon: SvgPicture.asset(
                       'asset/svgs/shopping-cart.svg',
                       width: 25,
