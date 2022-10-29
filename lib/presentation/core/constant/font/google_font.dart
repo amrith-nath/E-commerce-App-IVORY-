@@ -118,6 +118,16 @@ class GoogleFont {
     fontWeight: FontWeight.w700,
     color: const Color.fromARGB(255, 0, 0, 0),
   );
+  static final TextStyle textButtonStyleRed = GoogleFonts.dmSans(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: Color.fromARGB(255, 234, 4, 4),
+  );
+  static final TextStyle textButtonStyleGrey = GoogleFonts.dmSans(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: Colors.grey,
+  );
   static final TextStyle appBarTextStyle = GoogleFonts.dmSans(
     fontSize: 32,
     fontWeight: FontWeight.w700,

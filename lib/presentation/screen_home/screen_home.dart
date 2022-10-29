@@ -51,6 +51,7 @@ class ScreenHome extends StatelessWidget {
             duration: const Duration(milliseconds: 500),
             transitionBuilder: (child, primaryAnimation, secondaryAnimation) {
               return SharedAxisTransition(
+                fillColor: Colors.white,
                 transitionType: SharedAxisTransitionType.vertical,
                 animation: primaryAnimation,
                 secondaryAnimation: secondaryAnimation,
