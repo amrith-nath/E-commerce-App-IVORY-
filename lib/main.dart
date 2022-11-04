@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ivory/applicatoin/bloc/login/login_bloc.dart';
@@ -7,8 +8,9 @@ import 'package:ivory/presentation/screen_splash/screen_splash.dart';
 
 import 'applicatoin/cubits/onboarding/onboarding_cubit.dart';
 
-void main(List<String> args) {
+Future main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
 
   return runApp(const MyApp());
 }
