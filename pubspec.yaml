@@ -9,7 +9,6 @@ environment:
   sdk: ">=2.18.2 <3.0.0"
 
 dependencies:
-  #animations and styles
   animations: ^2.0.7
   card_swiper: ^2.0.4
   cloud_firestore: ^4.0.3
@@ -25,9 +24,9 @@ dependencies:
   flutter_svg: ^1.1.5
   google_fonts: ^3.0.1
   google_sign_in: ^5.4.2
+  equatable: ^2.0.5
   #json packages
-  json_annotation: ^4.7.0
-  json_serializable: ^6.4.0
+
   mirai_dropdown_menu: ^0.0.6+1
   modal_bottom_sheet: ^2.1.2
   salomon_bottom_bar: ^3.3.1
