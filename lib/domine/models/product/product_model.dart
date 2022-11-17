@@ -7,18 +7,18 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 class ProductModel extends Equatable {
-  final String? id;
-  final String? category;
-  final List<String>? colors;
-  final String? description;
-  final List<String>? images;
-  final String? mainCategory;
-  final String? name;
-  final int? noOfRating;
-  final double? price;
-  final double? quantity;
-  final double? rating;
-  final List<String>? size;
+  final String id;
+  final String category;
+  final List<String> colors;
+  final String description;
+  final List<String> images;
+  final String mainCategory;
+  final String name;
+  final int noOfRating;
+  final double price;
+  final double quantity;
+  final double rating;
+  final List<String> size;
   const ProductModel({
     required this.id,
     required this.category,
@@ -83,26 +83,18 @@ class ProductModel extends Equatable {
 
   factory ProductModel.fromMap(Map<String, dynamic> map) {
     return ProductModel(
-      id: map['id'] != null ? map['id'] as String : null,
-      category: map['category'] != null ? map['category'] as String : null,
-      colors: map['colors'] != null
-          ? List<String>.from((map['colors'] as List<String>))
-          : null,
-      description:
-          map['description'] != null ? map['description'] as String : null,
-      images: map['images'] != null
-          ? List<String>.from((map['images'] as List<String>))
-          : null,
-      mainCategory:
-          map['mainCategory'] != null ? map['mainCategory'] as String : null,
-      name: map['name'] != null ? map['name'] as String : null,
-      noOfRating: map['noOfRating'] != null ? map['noOfRating'] as int : null,
-      price: map['price'] != null ? map['price'] as double : null,
-      quantity: map['quantity'] != null ? map['quantity'] as double : null,
-      rating: map['rating'] != null ? map['rating'] as double : null,
-      size: map['size'] != null
-          ? List<String>.from((map['size'] as List<String>))
-          : null,
+      id: map['id'] as String,
+      category: map['category'] as String,
+      colors: List<String>.from((map['colors'] as List<String>)),
+      description: map['description'] as String,
+      images: List<String>.from((map['images'] as List<String>)),
+      mainCategory: map['mainCategory'] as String,
+      name: map['name'] as String,
+      noOfRating: map['noOfRating'] as int,
+      price: map['price'] as double,
+      quantity: map['quantity'] as double,
+      rating: map['rating'] as double,
+      size: List<String>.from((map['size'] as List<String>)),
     );
   }
 
@@ -117,18 +109,18 @@ class ProductModel extends Equatable {
   @override
   List<Object> get props {
     return [
-      id as Object,
-      category as Object,
-      colors as Object,
-      description as Object,
-      images as Object,
-      mainCategory as Object,
-      name as Object,
-      noOfRating as Object,
-      price as Object,
-      quantity as Object,
-      rating as Object,
-      size as Object,
+      id,
+      category,
+      colors,
+      description,
+      images,
+      mainCategory,
+      name,
+      noOfRating,
+      price,
+      quantity,
+      rating,
+      size,
     ];
   }
 }

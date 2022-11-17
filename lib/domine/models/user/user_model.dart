@@ -1,18 +1,29 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class UserModel extends Equatable {
-  final String? id;
-  final String? image;
-  final String? name;
-  final String? email;
+  final String id;
+  final String image;
+  final String name;
+  final String email;
+  final List<String> allOrders;
+  final List<String> cart;
+  final List<String> currentOrder;
+
+  final Map<dynamic, dynamic> address;
   const UserModel({
-    this.id,
-    this.image,
-    this.name,
-    this.email,
+    required this.id,
+    required this.image,
+    required this.name,
+    required this.email,
+    required this.allOrders,
+    required this.cart,
+    required this.currentOrder,
+    required this.address,
   });
 
   UserModel copyWith({
@@ -20,12 +31,20 @@ class UserModel extends Equatable {
     String? image,
     String? name,
     String? email,
+    List<String>? allOrders,
+    List<String>? cart,
+    List<String>? currentOrder,
+    Map<dynamic, dynamic>? address,
   }) {
     return UserModel(
       id: id ?? this.id,
       image: image ?? this.image,
       name: name ?? this.name,
       email: email ?? this.email,
+      allOrders: allOrders ?? this.allOrders,
+      cart: cart ?? this.cart,
+      currentOrder: currentOrder ?? this.currentOrder,
+      address: address ?? this.address,
     );
   }
 
@@ -35,31 +54,56 @@ class UserModel extends Equatable {
       'image': image,
       'name': name,
       'email': email,
+      'allOrders': allOrders,
+      'cart': cart,
+      'currentOrder': currentOrder,
+      'address': address,
     };
   }
 
-  factory UserModel.fromMap(Map<String, dynamic> map) {
+  Map<String, dynamic> toDocument() {
+    return <String, Object>{
+      'id': id,
+      'image': image,
+      'name': name,
+      'email': email,
+      'allOrders': allOrders,
+      'cart': cart,
+      'currentOrder': currentOrder,
+      'address': address,
+    };
+  }
+
+  factory UserModel.fromSnapShot(DocumentSnapshot snap) {
     return UserModel(
-      id: map['id'] != null ? map['id'] as String : null,
-      image: map['image'] != null ? map['image'] as String : null,
-      name: map['name'] != null ? map['name'] as String : null,
-      email: map['email'] != null ? map['email'] as String : null,
+      id: snap['id'] as String,
+      image: snap['image'] as String,
+      name: snap['name'] as String,
+      email: snap['email'] as String,
+      allOrders: List<String>.from((snap['allOrders'] as List<String>)),
+      cart: List<String>.from((snap['cart'] as List<String>)),
+      currentOrder: List<String>.from((snap['currentOrder'] as List<String>)),
+      address: Map<dynamic, dynamic>.from(
+          (snap['address'] as Map<dynamic, dynamic>)),
     );
   }
 
-  String toJson() => json.encode(toMap());
-
-  factory UserModel.fromJson(String source) =>
-      UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  // String toJson() => json.encode(toMap());
 
   @override
   bool get stringify => true;
 
   @override
-  List<Object> get props => [
-        id as Object,
-        image as Object,
-        name as Object,
-        email as Object,
-      ];
+  List<Object> get props {
+    return [
+      id,
+      image,
+      name,
+      email,
+      allOrders,
+      cart,
+      currentOrder,
+      address,
+    ];
+  }
 }

@@ -4,9 +4,9 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 class NotificationModel extends Equatable {
-  final String? iconId;
-  final String? title;
-  final String? content;
+  final String iconId;
+  final String title;
+  final String content;
 
   NotificationModel({
     required this.iconId,
@@ -36,9 +36,9 @@ class NotificationModel extends Equatable {
 
   factory NotificationModel.fromMap(Map<String, dynamic> map) {
     return NotificationModel(
-      iconId: map['iconId'] != null ? map['iconId'] as String : null,
-      title: map['title'] != null ? map['title'] as String : null,
-      content: map['content'] != null ? map['content'] as String : null,
+      iconId: map['iconId'] as String,
+      title: map['title'] as String,
+      content: map['content'] as String,
     );
   }
 
@@ -51,9 +51,5 @@ class NotificationModel extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object> get props => [
-        iconId as Object,
-        title as Object,
-        content as Object,
-      ];
+  List<Object> get props => [iconId, title, content];
 }

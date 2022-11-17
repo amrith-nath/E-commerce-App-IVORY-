@@ -4,27 +4,27 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 class OrderModel extends Equatable {
-  final String? id;
-  final String? customerId;
-  final List<String>? productId;
-  final double? deliveryFee;
-  final double? total;
-  final double? subTotal;
-  final bool? isAccepted;
-  final bool? isShiped;
-  final bool? isDeliverd;
-  final bool? isRejected;
+  final String id;
+  final String customerId;
+  final List<String> productId;
+  final double deliveryFee;
+  final double total;
+  final double subTotal;
+  final bool isAccepted;
+  final bool isShiped;
+  final bool isDeliverd;
+  final bool isRejected;
   const OrderModel({
-    this.id,
-    this.customerId,
-    this.productId,
-    this.deliveryFee,
-    this.total,
-    this.subTotal,
-    this.isAccepted,
-    this.isShiped,
-    this.isDeliverd,
-    this.isRejected,
+    required this.id,
+    required this.customerId,
+    required this.productId,
+    required this.deliveryFee,
+    required this.total,
+    required this.subTotal,
+    required this.isAccepted,
+    required this.isShiped,
+    required this.isDeliverd,
+    required this.isRejected,
   });
 
   OrderModel copyWith({
@@ -70,20 +70,16 @@ class OrderModel extends Equatable {
 
   factory OrderModel.fromMap(Map<String, dynamic> map) {
     return OrderModel(
-      id: map['id'] != null ? map['id'] as String : null,
-      customerId:
-          map['customerId'] != null ? map['customerId'] as String : null,
-      productId: map['productId'] != null
-          ? List<String>.from((map['productId'] as List<String>))
-          : null,
-      deliveryFee:
-          map['deliveryFee'] != null ? map['deliveryFee'] as double : null,
-      total: map['total'] != null ? map['total'] as double : null,
-      subTotal: map['subTotal'] != null ? map['subTotal'] as double : null,
-      isAccepted: map['isAccepted'] != null ? map['isAccepted'] as bool : null,
-      isShiped: map['isShiped'] != null ? map['isShiped'] as bool : null,
-      isDeliverd: map['isDeliverd'] != null ? map['isDeliverd'] as bool : null,
-      isRejected: map['isRejected'] != null ? map['isRejected'] as bool : null,
+      id: map['id'] as String,
+      customerId: map['customerId'] as String,
+      productId: List<String>.from((map['productId'] as List<String>)),
+      deliveryFee: map['deliveryFee'] as double,
+      total: map['total'] as double,
+      subTotal: map['subTotal'] as double,
+      isAccepted: map['isAccepted'] as bool,
+      isShiped: map['isShiped'] as bool,
+      isDeliverd: map['isDeliverd'] as bool,
+      isRejected: map['isRejected'] as bool,
     );
   }
 
@@ -98,16 +94,16 @@ class OrderModel extends Equatable {
   @override
   List<Object> get props {
     return [
-      id as Object,
-      customerId as Object,
-      productId as Object,
-      deliveryFee as Object,
-      total as Object,
-      subTotal as Object,
-      isAccepted as Object,
-      isShiped as Object,
-      isDeliverd as Object,
-      isRejected as Object,
+      id,
+      customerId,
+      productId,
+      deliveryFee,
+      total,
+      subTotal,
+      isAccepted,
+      isShiped,
+      isDeliverd,
+      isRejected,
     ];
   }
 }

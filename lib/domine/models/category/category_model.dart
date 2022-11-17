@@ -4,9 +4,9 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 class CategoryModel extends Equatable {
-  final String? title;
+  final String title;
   const CategoryModel({
-    this.title,
+    required this.title,
   });
 
   CategoryModel copyWith({
@@ -25,7 +25,7 @@ class CategoryModel extends Equatable {
 
   factory CategoryModel.fromMap(Map<String, dynamic> map) {
     return CategoryModel(
-      title: map['title'] != null ? map['title'] as String : null,
+      title: map['title'] as String,
     );
   }
 
@@ -38,5 +38,5 @@ class CategoryModel extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object> get props => [title as Object];
+  List<Object> get props => [title];
 }

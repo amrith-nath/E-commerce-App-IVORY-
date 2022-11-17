@@ -4,13 +4,13 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 class CoupenModel extends Equatable {
-  final String? id;
-  final String? code;
-  final double? amount;
+  final String id;
+  final String code;
+  final double amount;
   const CoupenModel({
-    this.id,
-    this.code,
-    this.amount,
+    required this.id,
+    required this.code,
+    required this.amount,
   });
 
   CoupenModel copyWith({
@@ -35,9 +35,9 @@ class CoupenModel extends Equatable {
 
   factory CoupenModel.fromMap(Map<String, dynamic> map) {
     return CoupenModel(
-      id: map['id'] != null ? map['id'] as String : null,
-      code: map['code'] != null ? map['code'] as String : null,
-      amount: map['amount'] != null ? map['amount'] as double : null,
+      id: map['id'] as String,
+      code: map['code'] as String,
+      amount: map['amount'] as double,
     );
   }
 
@@ -50,9 +50,5 @@ class CoupenModel extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object> get props => [
-        id as Object,
-        code as Object,
-        amount as Object,
-      ];
+  List<Object> get props => [id, code, amount];
 }
