@@ -12,8 +12,6 @@ class UserRepo implements IUserRepo {
 
   @override
   Future<void> createUser(UserModel user) async {
-    // final userDoc = firestore.collection("users").doc();
-    // await userDoc.set(user.toMap(userDoc));
     await firestore
         .collection("users")
         .doc(user.id)
