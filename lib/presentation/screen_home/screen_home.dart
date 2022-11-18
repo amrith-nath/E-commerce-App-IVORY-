@@ -25,7 +25,7 @@ class ScreenHome extends StatelessWidget {
 
     List<Widget> navigationRoutes = [
       Home(
-        key: Key('home'),
+        key: const Key('home'),
       ),
       ScreenCategories(
         key: const Key('wishlist'),

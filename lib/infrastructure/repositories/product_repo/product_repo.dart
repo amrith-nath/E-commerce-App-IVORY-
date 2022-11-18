@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ivory/domine/i_repositories/i_product_repo/i_product_repo.dart';
 import 'package:ivory/domine/models/product/product_model.dart';
@@ -8,9 +10,11 @@ class ProductRepo extends IProductRepo {
   @override
   Stream<List<ProductModel>> getProducts() {
     return fireStore.collection('products').snapshots().map((snapshot) {
-      return (snapshot.docs
-          .map((doc) => ProductModel.fromSnapShot(doc))
-          .toList());
+      log('getproducts function started');
+
+      return (snapshot.docs.map((doc) {
+        return ProductModel.fromSnapShot(doc);
+      }).toList());
     });
   }
 

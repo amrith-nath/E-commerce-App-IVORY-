@@ -1,17 +1,19 @@
 import 'package:card_swiper/card_swiper.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ivory/domine/models/product/product_model.dart';
 import 'package:ivory/presentation/core/constant/color/colors.dart';
 import 'package:ivory/presentation/core/constant/font/google_font.dart';
 import 'package:ivory/presentation/core/constant/size/constant_size.dart';
+import 'package:ivory/presentation/login_screen/login_creen.dart';
 import 'package:ivory/presentation/widgets/search_delegate.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class ScreenProduct extends StatelessWidget {
-  const ScreenProduct({Key? key, required this.image, required this.index})
-      : super(key: key);
+  ScreenProduct({Key? key, required this.product}) : super(key: key);
 
-  final List<String> image;
-  final int index;
+  ProductModel product;
 
   @override
   Widget build(BuildContext context) {
@@ -45,11 +47,11 @@ class ScreenProduct extends StatelessWidget {
             //       image: AssetImage(image), fit: BoxFit.cover),
             // ),
             child: Swiper(
-              index: index,
-              itemCount: image.length,
+              index: 0,
+              itemCount: product.images.length,
               itemBuilder: (context, index) => SizedBox(
-                child: Image.asset(
-                  image[index],
+                child: Image.network(
+                  product.images[index],
                   fit: BoxFit.cover,
                 ),
               ),
@@ -79,7 +81,7 @@ class ScreenProduct extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Spring Dress',
+                          product.name,
                           style: GoogleFont.productTextMain,
                         ),
                         kHeight10,
@@ -92,7 +94,7 @@ class ScreenProduct extends StatelessWidget {
                             ratingStarWidget(Colors.grey),
                             ratingStarWidget(Colors.grey),
                             Text(
-                              '  4.4 (208)',
+                              '${product.rating} (${product.noOfRating})',
                               style: GoogleFont.ratingTextGrey,
                             )
                           ],
@@ -133,7 +135,7 @@ class ScreenProduct extends StatelessWidget {
                   style: GoogleFont.loginSubTextBlack,
                 ),
                 Text(
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation',
+                  product.description,
                   style: GoogleFont.loginSubTextGrey,
                 ),
                 kHeight10,
@@ -150,12 +152,12 @@ class ScreenProduct extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(top: 5.0),
                           child: Row(
-                            children: [
-                              productColorWidget(0xff003049),
-                              productColorWidget(0xffD62828),
-                              productColorWidget(0xffF77F00),
-                              productColorWidget(0xff219ebc),
-                            ],
+                            children: List.generate(
+                              product.images.length,
+                              (index) => productColorWidget(
+                                product.colors[index],
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -170,12 +172,16 @@ class ScreenProduct extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(top: 5.0),
                           child: Row(
-                            children: [
-                              productSizeWidget('S'),
-                              productSizeWidget('M'),
-                              productSizeWidget('L'),
-                              productSizeWidget('XL'),
-                            ],
+                            children: List.generate(
+                                product.size.length,
+                                (index) => productSizeWidget(
+                                    product.size[index].toUpperCase())),
+                            // children: [
+                            //   productSizeWidget('S'),
+                            //   productSizeWidget('M'),
+                            //   productSizeWidget('L'),
+                            //   productSizeWidget('XL'),
+                            // ],
                           ),
                         ),
                       ],
@@ -206,7 +212,7 @@ class ScreenProduct extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  '\$ 2,400',
+                  '\$ ${product.price}',
                   style: GoogleFont.homeBodyText,
                 ),
                 Text(
@@ -219,7 +225,20 @@ class ScreenProduct extends StatelessWidget {
                 width: MediaQuery.of(context).size.width / 1.8,
                 height: 60,
                 child: ElevatedButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (FirebaseAuth.instance.currentUser == null) {
+                        showMaterialModalBottomSheet(
+                          clipBehavior: Clip.hardEdge,
+                          shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(30),
+                                  topRight: Radius.circular(30))),
+                          elevation: 5,
+                          context: context,
+                          builder: (context) => ScreenLogin(),
+                        );
+                      }
+                    },
                     style: ButtonStyle(
                       shape: MaterialStatePropertyAll(
                         RoundedRectangleBorder(
@@ -249,11 +268,11 @@ class ScreenProduct extends StatelessWidget {
     );
   }
 
-  Padding productColorWidget(int color) {
+  Padding productColorWidget(String color) {
     return Padding(
       padding: const EdgeInsets.only(right: 5.0),
       child: CircleAvatar(
-        backgroundColor: Color(color),
+        backgroundColor: Color(int.parse("0xff$color")),
         radius: 15,
       ),
     );

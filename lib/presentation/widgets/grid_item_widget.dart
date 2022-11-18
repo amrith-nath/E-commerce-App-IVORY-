@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:ivory/domine/models/product/product_model.dart';
 import 'package:ivory/presentation/core/constant/font/google_font.dart';
 
 class GridItemWidget extends StatelessWidget {
   const GridItemWidget({
     Key? key,
-    required this.image,
+    required this.product,
   }) : super(key: key);
 
-  final String image;
+  final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +25,8 @@ class GridItemWidget extends StatelessWidget {
                     width: double.infinity,
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                            image: AssetImage(
-                              image,
+                            image: NetworkImage(
+                              product.images[0],
                             ),
                             fit: BoxFit.cover)),
                   ),
@@ -54,7 +55,7 @@ class GridItemWidget extends StatelessWidget {
                               size: 15,
                             ),
                             Text(
-                              '  4.4',
+                              product.rating.toString(),
                               style: GoogleFont.cardSubText,
                             )
                           ],
@@ -79,11 +80,11 @@ class GridItemWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Spring Dress',
+                          product.name,
                           style: GoogleFont.cardMainText,
                         ),
                         Text(
-                          '\$2400',
+                          '\$${product.price}',
                           style: GoogleFont.cardMainText,
                         ),
                       ],

@@ -3,6 +3,7 @@
 // import 'dart:convert';
 
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
@@ -103,16 +104,16 @@ class ProductModel extends Equatable {
     return ProductModel(
       id: snapshot['id'] as String,
       category: snapshot['category'] as String,
-      colors: List<String>.from((snapshot['colors'] as List<String>)),
+      colors: List<String>.from((snapshot['colors'] as List)),
       description: snapshot['description'] as String,
-      images: List<String>.from((snapshot['images'] as List<String>)),
+      images: List<String>.from((snapshot['images'] as List)),
       mainCategory: snapshot['mainCategory'] as String,
       name: snapshot['name'] as String,
       noOfRating: snapshot['noOfRating'] as int,
-      price: snapshot['price'] as double,
-      quantity: snapshot['quantity'] as double,
-      rating: snapshot['rating'] as double,
-      size: List<String>.from((snapshot['size'] as List<String>)),
+      price: double.parse(snapshot['price'].toString()),
+      quantity: double.parse(snapshot['quantity'].toString()),
+      rating: double.parse(snapshot['rating'].toString()),
+      size: List<String>.from((snapshot['size'] as List)),
     );
   }
 

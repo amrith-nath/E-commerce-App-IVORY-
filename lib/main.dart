@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ivory/applicatoin/cubits/bottomNavigation/bottom_navigation_cubit.dart';
+import 'package:get/get.dart';
 
 import 'package:ivory/presentation/core/themes/themes.dart';
 import 'package:ivory/presentation/screen_splash/screen_splash.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
           create: (context) => BottomNavigationCubit(),
         ),
       ],
-      child: MaterialApp(
+      child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Ivory',
         theme: xThemeData,
