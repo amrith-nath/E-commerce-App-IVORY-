@@ -31,16 +31,6 @@ class ScreenSignup extends StatelessWidget {
                 IconButton(
                   onPressed: () {
                     Navigator.pop(context);
-                    showMaterialModalBottomSheet(
-                      clipBehavior: Clip.hardEdge,
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(30),
-                              topRight: Radius.circular(30))),
-                      elevation: 5,
-                      context: context,
-                      builder: (context) => ScreenLogin(),
-                    );
                   },
                   icon: const Icon(Icons.close),
                 ),
@@ -101,7 +91,21 @@ class ScreenSignup extends StatelessWidget {
                       style: GoogleFont.loginSubTextGrey,
                     ),
                     TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          showMaterialModalBottomSheet(
+                            clipBehavior: Clip.hardEdge,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(30),
+                                topRight: Radius.circular(30),
+                              ),
+                            ),
+                            elevation: 5,
+                            context: context,
+                            builder: (context) => ScreenLogin(),
+                          );
+                        },
                         child: Text(
                           'Login',
                           style: GoogleFont.loginSubTextBlack,

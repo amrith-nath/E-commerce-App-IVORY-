@@ -2,6 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:ivory/infrastructure/repositories/product_repo/product_repo.dart';
 import 'package:ivory/presentation/core/constant/size/constant_size.dart';
 import 'package:ivory/presentation/screen_product/screen_product.dart';
 import 'package:ivory/presentation/widgets/drop_down_widget.dart';
@@ -12,8 +13,8 @@ import '../../widgets/grid_item_widget.dart';
 ValueNotifier<String> dropDownNotify = ValueNotifier('All');
 
 class Home extends StatelessWidget {
-  const Home({Key? key}) : super(key: key);
-
+  Home({Key? key}) : super(key: key);
+  ProductRepo productRepo = ProductRepo();
   @override
   Widget build(BuildContext context) {
     final List<String> bannerImages = [
@@ -105,25 +106,29 @@ class Home extends StatelessWidget {
         ),
       ),
       kHeight10,
-      GridView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 2 / 2.5,
-          ),
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: productImages.length,
-          itemBuilder: (context, index) => OpenContainer(
-                closedElevation: 0,
-                transitionDuration: const Duration(milliseconds: 500),
-                closedBuilder: (context, action) =>
-                    GridItemWidget(image: productImages[index]),
-                openBuilder: (context, action) => ScreenProduct(
-                  image: productImages,
-                  index: index,
+      StreamBuilder(
+          stream: productRepo.getProducts(),
+          builder: (context, snapshot) {
+            return GridView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 2 / 2.5,
                 ),
-              )),
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: productImages.length,
+                itemBuilder: (context, index) => OpenContainer(
+                      closedElevation: 0,
+                      transitionDuration: const Duration(milliseconds: 500),
+                      closedBuilder: (context, action) =>
+                          GridItemWidget(image: productImages[index]),
+                      openBuilder: (context, action) => ScreenProduct(
+                        image: productImages,
+                        index: index,
+                      ),
+                    ));
+          }),
     ];
 
     return RefreshIndicator(
