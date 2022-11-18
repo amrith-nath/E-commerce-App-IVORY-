@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ivory/domine/i_repositories/i_auth-repo/i_auth_repo.dart';
 
-class AuthRepo implements IAuthRepo {
+class AuthRepo extends IAuthRepo {
   final FirebaseAuth auth;
 
   AuthRepo({FirebaseAuth? auth2}) : auth = auth2 ?? FirebaseAuth.instance;

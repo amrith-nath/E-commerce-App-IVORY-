@@ -7,9 +7,11 @@ import 'package:ivory/presentation/screen_alerts/screen_alerts.dart';
 import 'package:ivory/presentation/screen_cart/screen_cart.dart';
 import 'package:ivory/presentation/screen_home/widget/app_bar_widget.dart';
 import 'package:ivory/presentation/screen_home/widget/home.dart';
+import 'package:ivory/presentation/screen_profile/profile_page.dart';
 import 'package:ivory/presentation/screen_profile/screen_profile.dart';
 import 'package:ivory/presentation/screen_categories/screen_categories.dart';
 
+import '../screen_profile/profile_builder.dart';
 import 'widget/bottom_navigation_widget.dart';
 
 class ScreenHome extends StatelessWidget {
@@ -32,7 +34,7 @@ class ScreenHome extends StatelessWidget {
       const ScreenAlerts(
         key: Key('alerts'),
       ),
-      const ScreenProfile(
+      const ProfileBulder(
         key: Key('profile'),
       ),
       const ScreenCart(

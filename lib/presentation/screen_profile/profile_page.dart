@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ivory/presentation/core/constant/size/constant_size.dart';
 import 'package:ivory/presentation/screens_onboarding/widgets/elevated_button_widget.dart';
@@ -10,34 +11,15 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 8.0, bottom: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(Icons.close),
-              ),
-              TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Sign Out',
-                    style: GoogleFont.textButtonStyleGrey,
-                  ))
-            ],
-          ),
-        ),
         CircleAvatar(
           radius: 50,
           backgroundColor: Colors.grey.shade400,
         ),
         kHeight10,
         Text(
-          'example2022@gmail.com',
+          FirebaseAuth.instance.currentUser!.email.toString(),
           style: GoogleFont.cardSubText,
         ),
         Divider(
@@ -52,7 +34,7 @@ class ProfilePage extends StatelessWidget {
         ElevatedButtonWidget(
             color: Colors.grey.shade300,
             onPressed: () {
-              Navigator.pop(context);
+              FirebaseAuth.instance.signOut();
             },
             title: 'Sign Out',
             titleStyle: GoogleFont.textButtonStyleRed)

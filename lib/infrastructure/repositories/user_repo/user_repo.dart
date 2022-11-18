@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ivory/domine/i_repositories/i_user_repo/i_user_repo.dart';
 import 'package:ivory/domine/models/user/user_model.dart';
 
-class UserRepo implements IUserRepo {
+class UserRepo extends IUserRepo {
   final FirebaseFirestore firestore;
   UserRepo({
     FirebaseFirestore? firestore2,

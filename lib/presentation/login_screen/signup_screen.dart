@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:ivory/infrastructure/repositories/auth_repo/auth_repo.dart';
-import 'package:ivory/presentation/core/constant/color/colors.dart';
-import 'package:ivory/presentation/core/constant/size/constant_size.dart';
-import 'package:ivory/presentation/login_screen/signup_screen.dart';
-import 'package:ivory/presentation/screen_profile/profile_page.dart';
-import 'package:ivory/presentation/screens_onboarding/widgets/elevated_button_widget.dart';
+import 'package:ivory/presentation/core/constant/font/google_font.dart';
+import 'package:ivory/presentation/login_screen/login_creen.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import '../core/constant/font/google_font.dart';
 
-class ScreenLogin extends StatelessWidget {
-  ScreenLogin({Key? key}) : super(key: key);
+import '../core/constant/color/colors.dart';
+import '../core/constant/size/constant_size.dart';
+import '../screens_onboarding/widgets/elevated_button_widget.dart';
 
+class ScreenSignup extends StatelessWidget {
+  ScreenSignup({super.key});
   final TextEditingController _emailcontroller = TextEditingController();
   final TextEditingController _passwordcontroller = TextEditingController();
   final AuthRepo authRepo = AuthRepo();
@@ -32,6 +31,16 @@ class ScreenLogin extends StatelessWidget {
                 IconButton(
                   onPressed: () {
                     Navigator.pop(context);
+                    showMaterialModalBottomSheet(
+                      clipBehavior: Clip.hardEdge,
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(30),
+                              topRight: Radius.circular(30))),
+                      elevation: 5,
+                      context: context,
+                      builder: (context) => ScreenLogin(),
+                    );
                   },
                   icon: const Icon(Icons.close),
                 ),
@@ -43,7 +52,7 @@ class ScreenLogin extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  'Login to your account',
+                  'Create your account',
                   style: GoogleFont.homeBodyText,
                 ),
                 kHeight,
@@ -76,38 +85,25 @@ class ScreenLogin extends StatelessWidget {
                 ElevatedButtonWidget(
                   color: xYellow,
                   onPressed: () {
-                    authRepo.loginWithEmail(
+                    authRepo.signUp(
                         email: _emailcontroller.text.trim(),
                         password: _passwordcontroller.text.trim());
                     Navigator.of(context).pop();
                   },
-                  title: 'Login',
+                  title: 'Sign Up',
                   titleStyle: GoogleFont.cardMainText,
                 ),
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'Dont have an account?',
+                      'Already have an account?',
                       style: GoogleFont.loginSubTextGrey,
                     ),
                     TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-
-                          showMaterialModalBottomSheet(
-                            clipBehavior: Clip.hardEdge,
-                            shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(30),
-                                    topRight: Radius.circular(30))),
-                            elevation: 5,
-                            context: context,
-                            builder: (context) => ScreenSignup(),
-                          );
-                        },
+                        onPressed: () {},
                         child: Text(
-                          'Create account',
+                          'Login',
                           style: GoogleFont.loginSubTextBlack,
                         ))
                   ],

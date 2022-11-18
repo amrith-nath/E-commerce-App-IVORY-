@@ -1,6 +1,4 @@
-import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ivory/presentation/core/constant/color/colors.dart';
 import 'package:ivory/presentation/core/constant/font/google_font.dart';
@@ -43,6 +41,9 @@ class ScreenProfile extends StatelessWidget {
                 backgroundColor: MaterialStatePropertyAll(xYellow),
               ),
               onPressed: () {
+                // Navigator.of(context)
+                //     .push(MaterialPageRoute(builder: (ctx) => ScreenLogin()));
+
                 showMaterialModalBottomSheet(
                   clipBehavior: Clip.hardEdge,
                   shape: const RoundedRectangleBorder(
