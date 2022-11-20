@@ -11,7 +11,7 @@ class UserModel extends Equatable {
   final String name;
   final String email;
   final List<String> allOrders;
-  final List<String> cart;
+  final Map<String, int> cart;
   final List<String> currentOrder;
 
   final Map<dynamic, dynamic> address;
@@ -32,7 +32,7 @@ class UserModel extends Equatable {
     String? name,
     String? email,
     List<String>? allOrders,
-    List<String>? cart,
+    Map<String, int>? cart,
     List<String>? currentOrder,
     Map<dynamic, dynamic>? address,
   }) {
@@ -81,7 +81,7 @@ class UserModel extends Equatable {
       name: snap['name'] as String,
       email: snap['email'] as String,
       allOrders: List<String>.from((snap['allOrders'] as List<String>)),
-      cart: List<String>.from((snap['cart'] as List<String>)),
+      cart: Map<String, int>.from((snap['cart'] as Map<String, int>)),
       currentOrder: List<String>.from((snap['currentOrder'] as List<String>)),
       address: Map<dynamic, dynamic>.from(
           (snap['address'] as Map<dynamic, dynamic>)),

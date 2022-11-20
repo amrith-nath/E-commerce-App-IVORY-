@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:ivory/applicatoin/controller/banner_controller.dart';
 import 'package:ivory/applicatoin/controller/product_controller.dart';
 
 import 'package:ivory/infrastructure/repositories/product_repo/product_repo.dart';
@@ -19,6 +20,8 @@ class Home extends StatelessWidget {
   Home({Key? key}) : super(key: key);
   ProductRepo productRepo = ProductRepo();
   ProductController productController = Get.put(ProductController());
+  BannerController bannerController = Get.put(BannerController());
+
   @override
   Widget build(BuildContext context) {
     final List<String> bannerImages = [
@@ -28,25 +31,6 @@ class Home extends StatelessWidget {
       "asset/images/banner_5.png",
       "asset/images/banner_6.png",
       "asset/images/banner_4.png",
-    ];
-
-    final List<String> productImages = [
-      'asset/images/card_1.png',
-      'asset/images/card_10.png',
-      'asset/images/card_4.png',
-      'asset/images/card_5.png',
-      'asset/images/card_6.png',
-      'asset/images/card_7.png',
-      'asset/images/card_8.png',
-      'asset/images/card_9.png',
-      'asset/images/card_3.jpg',
-      'asset/images/card_11.png',
-      'asset/images/card_12.png',
-      'asset/images/card_13.png',
-      'asset/images/card_14.png',
-      'asset/images/card_15.png',
-      'asset/images/card_16.png',
-      'asset/images/card_17.png',
     ];
 
     final List<String> dropDownItems = [
@@ -110,29 +94,6 @@ class Home extends StatelessWidget {
         ),
       ),
       kHeight10,
-      // GetBuilder(
-      //   init: ProductController(),
-      //   builder: (productController) => GridView.builder(
-      //       padding: const EdgeInsets.symmetric(horizontal: 10),
-      //       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-      //         crossAxisCount: 2,
-      //         childAspectRatio: 2 / 2.5,
-      //       ),
-      //       shrinkWrap: true,
-      //       physics: const NeverScrollableScrollPhysics(),
-      //       itemCount: productController.products.length,
-      //       itemBuilder: (context, index) => OpenContainer(
-      //             closedElevation: 0,
-      //             transitionDuration: const Duration(milliseconds: 500),
-      //             closedBuilder: (context, action) =>
-      //                 GridItemWidget(image: productImages[index]),
-      //             openBuilder: (context, action) => ScreenProduct(
-      //               image: productImages,
-      //               index: index,
-      //             ),
-      //           )),
-      // ),
-
       Obx(
         () => GridView.builder(
             padding: const EdgeInsets.symmetric(horizontal: 10),

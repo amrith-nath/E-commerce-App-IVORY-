@@ -8,8 +8,6 @@ class BannerController extends GetxController {
   var banners = <BannerModel>[].obs;
   var newBanner = {}.obs;
 
-  var isImageLoading = false;
-
   @override
   void onInit() {
     banners.bindStream(bannerRepo.getBanners());

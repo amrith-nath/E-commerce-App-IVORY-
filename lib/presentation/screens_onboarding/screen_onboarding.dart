@@ -7,7 +7,6 @@ import 'package:ivory/applicatoin/cubits/onboarding/onboarding_cubit.dart';
 import 'package:ivory/presentation/core/constant/font/google_font.dart';
 import 'package:ivory/presentation/screens_onboarding/widgets/dot_indicator.dart';
 import 'package:ivory/presentation/screens_onboarding/widgets/elevated_button_widget.dart';
-import '../core/models/models.dart';
 import '../screen_home/screen_home.dart';
 import 'widgets/pageview_widget.dart';
 
