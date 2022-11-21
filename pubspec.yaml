@@ -30,10 +30,16 @@ dependencies:
   modal_bottom_sheet: ^2.1.2
   salomon_bottom_bar: ^3.3.1
   super_rich_text: ^1.0.0
+  cached_network_image: ^3.2.2
 
 dev_dependencies:
   build_runner: ^2.3.2
   flutter_lints: ^2.0.0
+  firebase_storage_platform_interface:
+  cloud_functions_platform_interface:
+  cloud_firestore_platform_interface:
+  firebase_auth_platform_interface:
+  firebase_database_platform_interface:
   flutter_test:
     sdk: flutter
   get: ^4.6.5

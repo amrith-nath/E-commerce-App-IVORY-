@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ivory/domine/models/product/product_model.dart';
 import 'package:ivory/presentation/core/constant/font/google_font.dart';
@@ -21,14 +22,17 @@ class GridItemWidget extends StatelessWidget {
               flex: 7,
               child: Stack(
                 children: [
-                  Container(
+                  SizedBox(
+                    height: double.infinity,
                     width: double.infinity,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: NetworkImage(
-                              product.images[0],
-                            ),
-                            fit: BoxFit.cover)),
+                    child: CachedNetworkImage(
+                      imageUrl: product.images[0],
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) =>
+                          Image.asset('asset/images/loading.gif'),
+                      errorWidget: (context, url, error) =>
+                          Image.asset('asset/images/error.gif'),
+                    ),
                   ),
                   Positioned(
                     top: 20,

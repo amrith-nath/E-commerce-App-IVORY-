@@ -11,7 +11,7 @@ class ProductController extends GetxController {
 
   @override
   void onInit() {
-    products.bindStream(productRepo.getProducts());
+    // products.bindStream(productRepo.getProducts());
 
     log(products.length.toString());
 

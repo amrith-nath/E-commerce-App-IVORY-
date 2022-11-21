@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:ivory/applicatoin/controller/banner_controller.dart';
@@ -11,6 +14,7 @@ import 'package:ivory/presentation/core/constant/size/constant_size.dart';
 import 'package:ivory/presentation/screen_product/screen_product.dart';
 import 'package:ivory/presentation/widgets/drop_down_widget.dart';
 import 'package:super_rich_text/super_rich_text.dart';
+import '../../../applicatoin/bloc/bloc/home_bloc.dart';
 import '../../core/constant/font/google_font.dart';
 import '../../widgets/grid_item_widget.dart';
 
@@ -24,6 +28,10 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      BlocProvider.of<HomeBloc>(context).add(InitialHomeEvent());
+    });
+
     final List<String> bannerImages = [
       "asset/images/banner_3.png",
       "asset/images/banner_2.png",
@@ -94,27 +102,55 @@ class Home extends StatelessWidget {
         ),
       ),
       kHeight10,
-      Obx(
-        () => GridView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 2 / 2.5,
-            ),
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: productController.products.length,
-            itemBuilder: (context, index) => OpenContainer(
-                  closedElevation: 0,
-                  transitionDuration: const Duration(milliseconds: 500),
-                  closedBuilder: (context, action) => GridItemWidget(
-                    product: productController.products[index],
+      // Obx(
+      //   () => GridView.builder(
+      //       padding: const EdgeInsets.symmetric(horizontal: 10),
+      //       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      //         crossAxisCount: 2,
+      //         childAspectRatio: 2 / 2.5,
+      //       ),
+      //       shrinkWrap: true,
+      //       physics: const NeverScrollableScrollPhysics(),
+      //       itemCount: productController.products.length,
+      //       itemBuilder: (context, index) => OpenContainer(
+      //             closedElevation: 0,
+      //             transitionDuration: const Duration(milliseconds: 500),
+      //             closedBuilder: (context, action) => GridItemWidget(
+      //               product: productController.products[index],
+      //             ),
+      //             openBuilder: (context, action) => ScreenProduct(
+      //               product: productController.products[index],
+      //             ),
+      //           )),
+      // )
+
+      BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, pState) {
+          log('${pState.products}');
+          return !pState.isLoadinng
+              ? GridView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 2 / 2.5,
                   ),
-                  openBuilder: (context, action) => ScreenProduct(
-                    product: productController.products[index],
-                  ),
-                )),
-      )
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: pState.products.length,
+                  itemBuilder: (context, index) => OpenContainer(
+                        closedElevation: 0,
+                        transitionDuration: const Duration(milliseconds: 500),
+                        closedBuilder: (context, action) => GridItemWidget(
+                          product: pState.products[index],
+                        ),
+                        openBuilder: (context, action) => ScreenProduct(
+                          product: pState.products[index],
+                        ),
+                      ))
+              : const SizedBox(
+                  height: 50, width: 50, child: LinearProgressIndicator());
+        },
+      ),
     ];
 
     return RefreshIndicator(
