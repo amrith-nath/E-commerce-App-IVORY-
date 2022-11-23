@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ivory/domine/i_repositories/i_auth-repo/i_auth_repo.dart';
+
+import '../../../presentation/core/widget/snackbar.dart';
 
 class AuthRepo extends IAuthRepo {
   final FirebaseAuth auth;
@@ -12,7 +16,9 @@ class AuthRepo extends IAuthRepo {
     try {
       await auth.signInWithEmailAndPassword(email: email, password: password);
       // return authCredential.user;
-    } catch (_) {}
+    } on FirebaseAuthException catch (e) {
+      kSnackBar('Error', '${e.message}');
+    }
   }
 
   @override
@@ -21,9 +27,12 @@ class AuthRepo extends IAuthRepo {
     try {
       final authCredential = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
+
       return authCredential.user;
-    } catch (_) {
-      throw Error();
+    } on FirebaseAuthException catch (e) {
+      kSnackBar('Error', '${e.message}');
+
+      // return null;
     }
   }
 

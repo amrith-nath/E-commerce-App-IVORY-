@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:ivory/presentation/core/constant/color/colors.dart';
 import 'package:ivory/presentation/core/constant/font/google_font.dart';
 import 'package:ivory/presentation/core/constant/size/constant_size.dart';
@@ -41,19 +42,9 @@ class ScreenProfile extends StatelessWidget {
                 backgroundColor: MaterialStatePropertyAll(xYellow),
               ),
               onPressed: () {
-                // Navigator.of(context)
-                //     .push(MaterialPageRoute(builder: (ctx) => ScreenLogin()));
-
-                showMaterialModalBottomSheet(
-                  clipBehavior: Clip.hardEdge,
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(30),
-                          topRight: Radius.circular(30))),
-                  elevation: 5,
-                  context: context,
-                  builder: (context) => ScreenLogin(),
-                );
+                Get.to(ScreenLogin(),
+                    transition: Transition.cupertino,
+                    duration: const Duration(milliseconds: 500));
               },
               child: Text(
                 'Get Started',

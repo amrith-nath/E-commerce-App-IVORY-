@@ -13,6 +13,7 @@ import 'package:ivory/infrastructure/repositories/product_repo/product_repo.dart
 import 'package:ivory/presentation/core/constant/size/constant_size.dart';
 import 'package:ivory/presentation/screen_product/screen_product.dart';
 import 'package:ivory/presentation/widgets/drop_down_widget.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:super_rich_text/super_rich_text.dart';
 import '../../../applicatoin/bloc/bloc/home_bloc.dart';
 import '../../core/constant/font/google_font.dart';
@@ -126,7 +127,6 @@ class Home extends StatelessWidget {
 
       BlocBuilder<HomeBloc, HomeState>(
         builder: (context, pState) {
-          log('${pState.products}');
           return !pState.isLoadinng
               ? GridView.builder(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -147,8 +147,7 @@ class Home extends StatelessWidget {
                           product: pState.products[index],
                         ),
                       ))
-              : const SizedBox(
-                  height: 50, width: 50, child: LinearProgressIndicator());
+              : shimmerWidget();
         },
       ),
     ];
@@ -168,6 +167,25 @@ class Home extends StatelessWidget {
         },
       ),
     );
+  }
+
+  GridView shimmerWidget() {
+    return GridView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 2 / 2.5,
+        ),
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: 10,
+        itemBuilder: (context, index) => Shimmer.fromColors(
+              period: const Duration(milliseconds: 500),
+              direction: ShimmerDirection.rtl,
+              baseColor: Colors.grey.shade300,
+              highlightColor: Colors.white,
+              child: const Card(),
+            ));
   }
 
   Padding searchWidget(BuildContext context) {
