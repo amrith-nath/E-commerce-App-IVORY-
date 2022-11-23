@@ -5,11 +5,9 @@ import 'package:get/get.dart';
 import 'package:ivory/infrastructure/repositories/auth_repo/auth_repo.dart';
 import 'package:ivory/presentation/core/constant/font/google_font.dart';
 import 'package:ivory/presentation/login_screen/login_creen.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../core/constant/color/colors.dart';
 import '../core/constant/size/constant_size.dart';
-import '../core/widget/snackbar.dart';
 import '../screens_onboarding/widgets/elevated_button_widget.dart';
 
 class ScreenSignup extends StatelessWidget {
@@ -106,7 +104,6 @@ class ScreenSignup extends StatelessWidget {
                         titleStyle: GoogleFont.cardMainText,
                       );
                     }),
-
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -157,30 +154,6 @@ class ScreenSignup extends StatelessWidget {
                       ),
                     ),
                     kHeight20,
-                    // Container(
-                    //   height: 40,
-                    //   width: double.infinity,
-                    //   decoration: BoxDecoration(
-                    //       color: Colors.grey.shade200,
-                    //       border: Border.all(color: Colors.grey.shade100),
-                    //       borderRadius: BorderRadius.circular(5)),
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.center,
-                    //     children: [
-                    //       SvgPicture.asset(
-                    //         "asset/svgs/phone-portrait-sharp.svg",
-                    //         width: 25,
-                    //       ),
-                    //       const SizedBox(
-                    //         width: 10,
-                    //       ),
-                    //       Text(
-                    //         'Continue With Phone ',
-                    //         style: GoogleFont.cardMainText,
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
                   ],
                 ),
               )
