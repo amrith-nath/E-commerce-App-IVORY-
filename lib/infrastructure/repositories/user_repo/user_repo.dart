@@ -19,6 +19,11 @@ class UserRepo extends IUserRepo {
         .then((value) => log('User created'));
   }
 
+  Stream<List<UserModel>> getUsers() {
+    return firestore.collection("users").snapshots().map((snapshot) =>
+        snapshot.docs.map((e) => UserModel.fromSnapShot(e)).toList());
+  }
+
   @override
   Stream<UserModel> getUser(String userId) {
     log('Getting userdata from firestore');

@@ -2,17 +2,21 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:ivory/applicatoin/controller/user_controller.dart';
 import 'package:ivory/domine/models/product/product_model.dart';
+import 'package:ivory/domine/models/user/user_model.dart';
+import 'package:ivory/infrastructure/repositories/user_repo/user_repo.dart';
 import 'package:ivory/presentation/core/constant/color/colors.dart';
 import 'package:ivory/presentation/core/constant/font/google_font.dart';
 import 'package:ivory/presentation/core/constant/size/constant_size.dart';
 import 'package:ivory/presentation/login_screen/login_creen.dart';
 import 'package:ivory/presentation/widgets/search_delegate.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class ScreenProduct extends StatelessWidget {
   ScreenProduct({Key? key, required this.product}) : super(key: key);
-
+  UserController userController = Get.put(UserController());
+  UserRepo userRepo = UserRepo();
   ProductModel product;
 
   @override
@@ -227,16 +231,18 @@ class ScreenProduct extends StatelessWidget {
                 child: ElevatedButton.icon(
                     onPressed: () {
                       if (FirebaseAuth.instance.currentUser == null) {
-                        showMaterialModalBottomSheet(
-                          clipBehavior: Clip.hardEdge,
-                          shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(30),
-                                  topRight: Radius.circular(30))),
-                          elevation: 5,
-                          context: context,
-                          builder: (context) => ScreenLogin(),
-                        );
+                        Get.to(() => ScreenLogin());
+                      } else {
+                        var user = userController.user.firstWhere((element) =>
+                            element.email ==
+                            FirebaseAuth.instance.currentUser!.email);
+                        var cart = user.cart;
+                        if (cart.keys.contains(product.id)) {
+                          cart[product.id] = cart[product.id]! + 1;
+                        } else {
+                          cart.addAll({product.id: 1});
+                        }
+                        userRepo.updateUser(user.copyWith(cart: cart));
                       }
                     },
                     style: ButtonStyle(

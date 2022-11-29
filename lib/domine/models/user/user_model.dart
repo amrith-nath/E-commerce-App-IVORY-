@@ -1,7 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
@@ -80,9 +78,9 @@ class UserModel extends Equatable {
       image: snap['image'] as String,
       name: snap['name'] as String,
       email: snap['email'] as String,
-      allOrders: List<String>.from((snap['allOrders'] as List<String>)),
-      cart: Map<String, int>.from((snap['cart'] as Map<String, int>)),
-      currentOrder: List<String>.from((snap['currentOrder'] as List<String>)),
+      allOrders: List<String>.from((snap['allOrders'] as List)),
+      cart: Map<String, int>.from((snap['cart'] as Map<dynamic, dynamic>)),
+      currentOrder: List<String>.from((snap['currentOrder'] as List)),
       address: Map<dynamic, dynamic>.from(
           (snap['address'] as Map<dynamic, dynamic>)),
     );

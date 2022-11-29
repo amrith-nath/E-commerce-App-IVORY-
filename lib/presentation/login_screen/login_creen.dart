@@ -1,15 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:ivory/infrastructure/repositories/auth_repo/auth_repo.dart';
 import 'package:ivory/presentation/core/constant/color/colors.dart';
 import 'package:ivory/presentation/core/constant/size/constant_size.dart';
-import 'package:ivory/presentation/core/widget/snackbar.dart';
 import 'package:ivory/presentation/login_screen/signup_screen.dart';
 import 'package:ivory/presentation/screens_onboarding/widgets/elevated_button_widget.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../core/constant/font/google_font.dart';
 
 class ScreenLogin extends StatelessWidget {

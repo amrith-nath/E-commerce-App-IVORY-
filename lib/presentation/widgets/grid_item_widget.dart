@@ -28,8 +28,9 @@ class GridItemWidget extends StatelessWidget {
                     child: CachedNetworkImage(
                       imageUrl: product.images[0],
                       fit: BoxFit.cover,
-                      placeholder: (context, url) =>
-                          Image.asset('asset/images/loading.gif'),
+                      placeholder: (context, url) => const Center(
+                        child: CircularProgressIndicator(),
+                      ),
                       errorWidget: (context, url, error) =>
                           Image.asset('asset/images/error.gif'),
                     ),

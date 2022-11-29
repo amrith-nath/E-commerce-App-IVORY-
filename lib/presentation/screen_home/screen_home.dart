@@ -36,7 +36,7 @@ class ScreenHome extends StatelessWidget {
       const ProfileBulder(
         key: Key('profile'),
       ),
-      const ScreenCart(
+      ScreenCart(
         key: Key('cart'),
       ),
     ];

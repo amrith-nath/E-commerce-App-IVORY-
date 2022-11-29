@@ -1,13 +1,12 @@
-import 'dart:developer';
-
 import 'package:animations/animations.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:ivory/applicatoin/controller/banner_controller.dart';
-import 'package:ivory/applicatoin/controller/product_controller.dart';
+import 'package:ivory/domine/models/banner/banner_model.dart';
 
 import 'package:ivory/infrastructure/repositories/product_repo/product_repo.dart';
 import 'package:ivory/presentation/core/constant/size/constant_size.dart';
@@ -15,7 +14,7 @@ import 'package:ivory/presentation/screen_product/screen_product.dart';
 import 'package:ivory/presentation/widgets/drop_down_widget.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:super_rich_text/super_rich_text.dart';
-import '../../../applicatoin/bloc/bloc/home_bloc.dart';
+import '../../../applicatoin/bloc/homeBloc/home_bloc.dart';
 import '../../core/constant/font/google_font.dart';
 import '../../widgets/grid_item_widget.dart';
 
@@ -24,7 +23,6 @@ ValueNotifier<String> dropDownNotify = ValueNotifier('All');
 class Home extends StatelessWidget {
   Home({Key? key}) : super(key: key);
   ProductRepo productRepo = ProductRepo();
-  ProductController productController = Get.put(ProductController());
   BannerController bannerController = Get.put(BannerController());
 
   @override
@@ -32,15 +30,6 @@ class Home extends StatelessWidget {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<HomeBloc>(context).add(InitialHomeEvent());
     });
-
-    final List<String> bannerImages = [
-      "asset/images/banner_3.png",
-      "asset/images/banner_2.png",
-      "asset/images/banner_1.png",
-      "asset/images/banner_5.png",
-      "asset/images/banner_6.png",
-      "asset/images/banner_4.png",
-    ];
 
     final List<String> dropDownItems = [
       'Fasion',
@@ -55,19 +44,21 @@ class Home extends StatelessWidget {
       SizedBox(
         height: 220,
         width: double.infinity,
-        child: Swiper(
-          itemBuilder: (context, index) => imageBanner(
-            bannerImages[index],
-          ),
-          itemCount: bannerImages.length,
-          autoplay: true,
-          curve: Curves.fastOutSlowIn,
-          pagination: const SwiperPagination(
-            margin: EdgeInsets.only(top: 10),
-            builder: DotSwiperPaginationBuilder(
-              color: Colors.grey,
-              size: 5,
-              activeSize: 8,
+        child: Obx(
+          () => Swiper(
+            itemBuilder: (context, index) => imageBanner(
+              bannerController.banners[index],
+            ),
+            itemCount: bannerController.banners.length,
+            autoplay: true,
+            curve: Curves.fastOutSlowIn,
+            pagination: const SwiperPagination(
+              margin: EdgeInsets.only(top: 10),
+              builder: DotSwiperPaginationBuilder(
+                color: Colors.grey,
+                size: 5,
+                activeSize: 8,
+              ),
             ),
           ),
         ),
@@ -103,28 +94,6 @@ class Home extends StatelessWidget {
         ),
       ),
       kHeight10,
-      // Obx(
-      //   () => GridView.builder(
-      //       padding: const EdgeInsets.symmetric(horizontal: 10),
-      //       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-      //         crossAxisCount: 2,
-      //         childAspectRatio: 2 / 2.5,
-      //       ),
-      //       shrinkWrap: true,
-      //       physics: const NeverScrollableScrollPhysics(),
-      //       itemCount: productController.products.length,
-      //       itemBuilder: (context, index) => OpenContainer(
-      //             closedElevation: 0,
-      //             transitionDuration: const Duration(milliseconds: 500),
-      //             closedBuilder: (context, action) => GridItemWidget(
-      //               product: productController.products[index],
-      //             ),
-      //             openBuilder: (context, action) => ScreenProduct(
-      //               product: productController.products[index],
-      //             ),
-      //           )),
-      // )
-
       BlocBuilder<HomeBloc, HomeState>(
         builder: (context, pState) {
           return !pState.isLoadinng
@@ -225,7 +194,7 @@ class Home extends StatelessWidget {
     );
   }
 
-  SizedBox imageBanner(String image) {
+  SizedBox imageBanner(BannerModel banner) {
     return SizedBox(
       height: 200,
       width: double.infinity,
@@ -234,9 +203,14 @@ class Home extends StatelessWidget {
           SizedBox(
             height: 200,
             width: double.infinity,
-            child: Image.asset(
-              image,
+            child: CachedNetworkImage(
+              imageUrl: banner.image,
               fit: BoxFit.cover,
+              placeholder: (context, url) => const Center(
+                child: CircularProgressIndicator(),
+              ),
+              errorWidget: (context, url, error) =>
+                  Image.asset('asset/images/error.gif'),
             ),
           ),
           Container(
@@ -280,7 +254,7 @@ class Home extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Free Shipping on all products',
+                      banner.tag,
                       style: GoogleFont.bannerLargeText,
                     ),
                     Text(
