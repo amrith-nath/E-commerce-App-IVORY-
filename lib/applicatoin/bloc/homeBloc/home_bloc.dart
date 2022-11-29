@@ -20,7 +20,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         log(products.length.toString());
         return HomeState(isLoadinng: false, isError: false, products: products);
       }).catchError((error) {
-        emit(HomeState(isLoadinng: false, isError: true, products: []));
+        emit(HomeState(isLoadinng: false, isError: true, products: const []));
       });
     });
   }

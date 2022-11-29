@@ -1,12 +1,12 @@
 part of 'home_bloc.dart';
 
 class HomeState extends Equatable {
-  HomeState(
-      {required this.isLoadinng,
-      required this.isError,
-      required this.products});
-  Stream<List<ProductModel>>? productStream;
-  Stream<List<BannerModel>>? bannerStream;
+  HomeState({
+    required this.isLoadinng,
+    required this.isError,
+    required this.products,
+  });
+
   List<ProductModel> products;
   final bool isLoadinng;
   final bool isError;

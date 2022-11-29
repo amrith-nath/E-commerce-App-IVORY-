@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:ivory/applicatoin/bloc/homeBloc/home_bloc.dart';
 import 'package:ivory/applicatoin/controller/product_controller.dart';
 import 'package:ivory/applicatoin/controller/user_controller.dart';
 import 'package:ivory/presentation/core/constant/size/constant_size.dart';
@@ -14,24 +16,25 @@ import '../core/constant/font/google_font.dart';
 class ScreenCart extends StatelessWidget {
   ScreenCart({Key? key}) : super(key: key);
   UserController userController = Get.put(UserController());
-  ProductController productController = Get.put(ProductController());
+  // ProductController productController = Get.put(ProductController());
   @override
   Widget build(BuildContext context) {
     var currentuser = userController.user.firstWhere(
         (user) => user.email == FirebaseAuth.instance.currentUser!.email);
     log(currentuser.id);
     return Scaffold(
-      body: Obx(
-        () => ListView.builder(
-          physics: const BouncingScrollPhysics(),
-          itemCount: currentuser.cart.length,
-          itemBuilder: (BuildContext context, int index) {
-            var product = productController.products.firstWhereOrNull(
-              (element) => element.id == currentuser.cart.keys.toList()[index],
-            );
+      body: ListView.builder(
+        physics: const BouncingScrollPhysics(),
+        itemCount: currentuser.cart.length,
+        itemBuilder: (BuildContext context, int index) {
+          return BlocBuilder<HomeBloc, HomeState>(
+            builder: (context, pState) {
+              var product = pState.products.firstWhereOrNull(
+                (element) =>
+                    element.id == currentuser.cart.keys.toList()[index],
+              );
 
-           
-              var count = currentuser.cart[product.id];
+              var count = currentuser.cart[product!.id];
               return CartWidget(
                 name: product.name,
                 image: product.images[0],
@@ -39,9 +42,9 @@ class ScreenCart extends StatelessWidget {
                 size: product.price.toString(),
                 count: count!,
               );
-          
-          },
-        ),
+            },
+          );
+        },
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
