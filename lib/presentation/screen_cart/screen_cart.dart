@@ -1,49 +1,61 @@
-import 'dart:developer';
+import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:ivory/applicatoin/bloc/homeBloc/home_bloc.dart';
-import 'package:ivory/applicatoin/controller/product_controller.dart';
-import 'package:ivory/applicatoin/controller/user_controller.dart';
+import 'package:ivory/domine/models/product/product_model.dart';
 import 'package:ivory/presentation/core/constant/size/constant_size.dart';
 import 'package:ivory/presentation/screen_checkout/screen_checkout.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
+import '../../applicatoin/bloc/cart_bloc/cart_bloc.dart';
 import '../core/constant/font/google_font.dart';
 
 class ScreenCart extends StatelessWidget {
-  ScreenCart({Key? key}) : super(key: key);
-  UserController userController = Get.put(UserController());
+  const ScreenCart({Key? key}) : super(key: key);
   // ProductController productController = Get.put(ProductController());
   @override
   Widget build(BuildContext context) {
-    var currentuser = userController.user.firstWhere(
-        (user) => user.email == FirebaseAuth.instance.currentUser!.email);
-    log(currentuser.id);
-    return Scaffold(
-      body: ListView.builder(
-        physics: const BouncingScrollPhysics(),
-        itemCount: currentuser.cart.length,
-        itemBuilder: (BuildContext context, int index) {
-          return BlocBuilder<HomeBloc, HomeState>(
-            builder: (context, pState) {
-              var product = pState.products.firstWhereOrNull(
-                (element) =>
-                    element.id == currentuser.cart.keys.toList()[index],
-              );
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        BlocProvider.of<CartBloc>(context).add(InitialCartEvent());
+      },
+    );
 
-              var count = currentuser.cart[product!.id];
-              return CartWidget(
-                name: product.name,
-                image: product.images[0],
-                price: product.price.toString(),
-                size: product.price.toString(),
-                count: count!,
-              );
-            },
-          );
+    return Scaffold(
+      body: BlocBuilder<CartBloc, CartState>(
+        builder: (context, cState) {
+          if (cState is CartLoadingState || cState is CartInitialState) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (cState is CartLoadedState) {
+            return RefreshIndicator(
+              onRefresh: () async {
+                BlocProvider.of<CartBloc>(context).add(InitialCartEvent());
+                await Future.delayed(const Duration(seconds: 3));
+              },
+              child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                itemCount: cState.cart.length,
+                itemBuilder: (BuildContext context, int index) {
+                  var product = cState.products.firstWhereOrNull(
+                    (element) => element.id == cState.cart.keys.toList()[index],
+                  );
+
+                  var count = cState.cart[product!.id];
+                  return CartWidget(
+                    name: product.name,
+                    image: product.images[0],
+                    price: product.price.toString(),
+                    size: product.size[0].toUpperCase(),
+                    count: count!,
+                  );
+                },
+              ),
+            );
+          }
+          return const Center(child: Text('Something Went Wrong'));
         },
       ),
       bottomNavigationBar: Container(
@@ -60,18 +72,51 @@ class ScreenCart extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  '\$ 2,400',
-                  style: GoogleFont.homeBodyText,
-                ),
-                Text(
-                  "Total Price",
-                  style: GoogleFont.dropDownText,
-                ),
-              ],
+            BlocBuilder<CartBloc, CartState>(
+              builder: (context, bState) {
+                if (bState is CartLoadingState || bState is CartInitialState) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (bState is CartLoadedState) {
+                  double amount = 0;
+
+                  var keys = bState.cart.keys.toList();
+                  for (var i in keys) {
+                    int count = bState.cart[i]!;
+                    ProductModel product = bState.products
+                        .firstWhere((element) => element.id == i);
+
+                    amount = amount + (product.price * count);
+                  }
+
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '\$ $amount.',
+                        style: GoogleFont.homeBodyText,
+                      ),
+                      Text(
+                        "Total Price",
+                        style: GoogleFont.dropDownText,
+                      ),
+                    ],
+                  );
+                }
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '\$ 2,400',
+                      style: GoogleFont.homeBodyText,
+                    ),
+                    Text(
+                      "Total Price",
+                      style: GoogleFont.dropDownText,
+                    ),
+                  ],
+                );
+              },
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width / 1.8,
@@ -110,7 +155,7 @@ class ScreenCart extends StatelessWidget {
 }
 
 class CartWidget extends StatelessWidget {
-  CartWidget(
+  const CartWidget(
       {required this.name,
       required this.image,
       required this.price,
@@ -197,28 +242,18 @@ class CartWidget extends StatelessWidget {
                   )
                 ],
               ),
-              Divider(),
+              const Divider(),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextButton.icon(
                       onPressed: () {},
                       icon: const Icon(
-                        Icons.delete,
-                        color: Colors.red,
+                        Icons.delete_outline_outlined,
+                        color: Colors.grey,
                       ),
                       label: Text(
                         'Remove',
-                        style: GoogleFont.loginSubTextGrey,
-                      )),
-                  TextButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.shopping_bag,
-                        color: Colors.black,
-                      ),
-                      label: Text(
-                        'Buy Now',
                         style: GoogleFont.loginSubTextGrey,
                       )),
                 ],

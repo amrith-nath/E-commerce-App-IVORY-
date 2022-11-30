@@ -2,17 +2,17 @@ part of 'user_bloc.dart';
 
 class UserState extends Equatable {
   UserState({
-    required this.products,
+    required this.users,
     required this.isError,
     required this.isLoadinng,
   });
 
-  List<UserModel> products;
+  List<UserModel> users;
   final bool isLoadinng;
   final bool isError;
 
   factory UserState.initial() => UserState(
-        products: const [],
+        users: const [],
         isError: false,
         isLoadinng: true,
       );

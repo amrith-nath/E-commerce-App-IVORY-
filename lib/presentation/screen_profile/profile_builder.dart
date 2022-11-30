@@ -15,7 +15,6 @@ class ProfileBulder extends StatelessWidget {
     return StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
-          log(snapshot.data.toString());
           if (snapshot.hasData) {
             return const ProfilePage();
           } else if (snapshot.hasError) {

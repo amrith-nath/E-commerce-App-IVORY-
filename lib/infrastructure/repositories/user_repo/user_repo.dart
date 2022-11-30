@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ivory/domine/i_repositories/i_user_repo/i_user_repo.dart';
 import 'package:ivory/domine/models/user/user_model.dart';
 
@@ -32,6 +33,17 @@ class UserRepo extends IUserRepo {
         .doc(userId)
         .snapshots()
         .map((snapshot) => UserModel.fromSnapShot(snapshot));
+  }
+
+  Future<UserModel> getuser() async {
+    List<UserModel> userList = [];
+    var rawuser = await firestore.collection('users').get();
+    for (var element in rawuser.docs) {
+      userList.add(UserModel.fromSnapShot(element));
+    }
+    var user = userList.firstWhere(
+        (element) => element.id == FirebaseAuth.instance.currentUser!.email);
+    return user;
   }
 
   @override
