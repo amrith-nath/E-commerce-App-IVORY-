@@ -1,9 +1,13 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:ivory/domine/models/product/product_model.dart';
+import 'package:ivory/infrastructure/repositories/product_repo/product_repo.dart';
+import 'package:ivory/infrastructure/repositories/user_repo/user_repo.dart';
+import 'package:ivory/presentation/core/constant/color/colors.dart';
 import 'package:ivory/presentation/core/constant/size/constant_size.dart';
 import 'package:ivory/presentation/screen_checkout/screen_checkout.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -14,6 +18,7 @@ import '../core/constant/font/google_font.dart';
 class ScreenCart extends StatelessWidget {
   const ScreenCart({Key? key}) : super(key: key);
   // ProductController productController = Get.put(ProductController());
+
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback(
@@ -35,24 +40,39 @@ class ScreenCart extends StatelessWidget {
                 BlocProvider.of<CartBloc>(context).add(InitialCartEvent());
                 await Future.delayed(const Duration(seconds: 3));
               },
-              child: ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                itemCount: cState.cart.length,
-                itemBuilder: (BuildContext context, int index) {
-                  var product = cState.products.firstWhereOrNull(
-                    (element) => element.id == cState.cart.keys.toList()[index],
-                  );
+              child: cState.cart.isEmpty
+                  ? Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.hourglass_empty),
+                          Text(
+                            'Your Cart is Empty',
+                            style: GoogleFont.cardMainText,
+                          ),
+                        ],
+                      ),
+                    )
+                  : ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: cState.cart.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        var product = cState.products.firstWhereOrNull(
+                          (element) =>
+                              element.id == cState.cart.keys.toList()[index],
+                        );
 
-                  var count = cState.cart[product!.id];
-                  return CartWidget(
-                    name: product.name,
-                    image: product.images[0],
-                    price: product.price.toString(),
-                    size: product.size[0].toUpperCase(),
-                    count: count!,
-                  );
-                },
-              ),
+                        var count = cState.cart[product!.id];
+                        return CartWidget(
+                          name: product.name,
+                          image: product.images[0],
+                          price: product.price.toString(),
+                          size: product.size[0].toUpperCase(),
+                          count: count!,
+                          product: product,
+                        );
+                      },
+                    ),
             );
           }
           return const Center(child: Text('Something Went Wrong'));
@@ -124,14 +144,15 @@ class ScreenCart extends StatelessWidget {
               child: ElevatedButton.icon(
                 onPressed: () {
                   showMaterialModalBottomSheet(
-                      clipBehavior: Clip.hardEdge,
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(30),
-                              topRight: Radius.circular(30))),
-                      elevation: 5,
-                      context: context,
-                      builder: (context) => ScreenCheckout());
+                    clipBehavior: Clip.hardEdge,
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30))),
+                    elevation: 5,
+                    context: context,
+                    builder: (context) => ScreenCheckout(),
+                  );
                 },
                 style: ButtonStyle(
                   shape: MaterialStatePropertyAll(
@@ -155,28 +176,37 @@ class ScreenCart extends StatelessWidget {
 }
 
 class CartWidget extends StatelessWidget {
-  const CartWidget(
-      {required this.name,
+  CartWidget(
+      {super.key,
+      required this.name,
       required this.image,
       required this.price,
       required this.size,
-      required this.count});
+      required this.count,
+      required this.product});
 
   final String name;
   final String image;
   final String price;
   final String size;
   final int count;
+  final ProductModel product;
+  UserRepo userRepo = UserRepo();
 
   @override
   Widget build(BuildContext context) {
+    callBloc() {
+      BlocProvider.of<CartBloc>(context).add(InitialCartEvent());
+    }
+
     return Padding(
       padding: const EdgeInsets.only(top: 10, left: 18, right: 18),
       child: Card(
         clipBehavior: Clip.hardEdge,
         child: Container(
-          height: 180,
-          decoration: BoxDecoration(color: Colors.grey.shade200),
+          decoration: BoxDecoration(
+              color: Colors.grey.shade200,
+              border: Border.all(color: Colors.black12)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -221,41 +251,32 @@ class CartWidget extends StatelessWidget {
                   const SizedBox(
                     width: 20,
                   ),
-                  Column(
-                    children: [
-                      kHeight,
-                      kHeight10,
-                      Container(
-                        height: 30,
-                        width: 70,
-                        decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Center(
-                            child: Text(
-                          '-   $count   +',
-                          style: GoogleFont.cardMainText,
-                        )),
-                      ),
-                    ],
-                  )
+                  const Spacer(),
+                  ItemCountWidget(count: count, product: product),
+                  kWidth,
                 ],
               ),
               const Divider(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.delete_outline_outlined,
-                        color: Colors.grey,
-                      ),
-                      label: Text(
-                        'Remove',
-                        style: GoogleFont.loginSubTextGrey,
-                      )),
+                  SizedBox(
+                    width: 300,
+                    height: 70,
+                    child: TextButton.icon(
+                        onPressed: () async {
+                          await removeProduct(product);
+                          callBloc();
+                        },
+                        icon: const Icon(
+                          Icons.delete_outline_outlined,
+                          color: Colors.grey,
+                        ),
+                        label: Text(
+                          'Remove',
+                          style: GoogleFont.loginSubTextGrey,
+                        )),
+                  ),
                 ],
               )
             ],
@@ -263,5 +284,113 @@ class CartWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  removeProduct(ProductModel product) async {
+    var user = await userRepo.getuser();
+    var cart = user.cart;
+
+    cart.remove(product.id);
+    await userRepo.updateUser(user.copyWith(cart: cart));
+
+    log('product added');
+  }
+}
+
+class ItemCountWidget extends StatelessWidget {
+  ItemCountWidget({
+    Key? key,
+    required this.count,
+    required this.product,
+  }) : super(key: key);
+
+  int count;
+  final ProductModel product;
+  UserRepo userRepo = UserRepo();
+
+  @override
+  Widget build(BuildContext context) {
+    callBloc() {
+      BlocProvider.of<CartBloc>(context).add(InitialCartEvent());
+    }
+
+    return StatefulBuilder(builder: (context, setState) {
+      return Column(
+        children: [
+          CircleAvatar(
+            backgroundColor: xPrimaryColor,
+            radius: 15,
+            child: IconButton(
+              onPressed: () async {
+                await addProduct(product);
+                callBloc();
+              },
+              icon: Transform.rotate(
+                  angle: 90 * 3.1415927 / 180,
+                  child: const Icon(Icons.chevron_left_outlined)),
+              iconSize: 15,
+            ),
+          ),
+          kHeight10,
+          CircleAvatar(
+            backgroundColor: xScaffoldColor,
+            radius: 14,
+            child: Center(
+                child: Text(
+              '$count',
+              style: GoogleFont.cardCountText,
+            )),
+          ),
+          kHeight10,
+          CircleAvatar(
+            backgroundColor: xPrimaryColor,
+            radius: 15,
+            child: IconButton(
+              onPressed: () async {
+                await minusProduct(product);
+                callBloc();
+              },
+              icon: Transform.rotate(
+                  angle: 90 * 3.1415927 / 180,
+                  child: const Icon(Icons.chevron_right_outlined)),
+              iconSize: 15,
+            ),
+          ),
+        ],
+      );
+    });
+  }
+
+  addProduct(ProductModel product) async {
+    var user = await userRepo.getuser();
+    var cart = user.cart;
+
+    cart[product.id] = cart[product.id]! + 1;
+    await userRepo.updateUser(user.copyWith(cart: cart));
+    count = cart[product.id]!;
+
+    log('product added');
+  }
+
+  minusProduct(ProductModel product) async {
+    var user = await userRepo.getuser();
+    var cart = user.cart;
+
+    cart[product.id] = cart[product.id]! - 1;
+    await userRepo.updateUser(user.copyWith(cart: cart));
+    count = cart[product.id]!;
+
+    log('product added');
+  }
+
+  removeProduct(ProductModel product) async {
+    var user = await userRepo.getuser();
+    var cart = user.cart;
+
+    cart.remove(product.id);
+    await userRepo.updateUser(user.copyWith(cart: cart));
+    count = cart[product.id]!;
+
+    log('product added');
   }
 }

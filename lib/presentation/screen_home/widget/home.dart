@@ -97,25 +97,32 @@ class Home extends StatelessWidget {
       BlocBuilder<HomeBloc, HomeState>(
         builder: (context, pState) {
           return !pState.isLoadinng
-              ? GridView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 2 / 2.5,
-                  ),
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: pState.products.length,
-                  itemBuilder: (context, index) => OpenContainer(
-                        closedElevation: 0,
-                        transitionDuration: const Duration(milliseconds: 500),
-                        closedBuilder: (context, action) => GridItemWidget(
-                          product: pState.products[index],
-                        ),
-                        openBuilder: (context, action) => ScreenProduct(
-                          product: pState.products[index],
-                        ),
-                      ))
+              ? RefreshIndicator(
+                  onRefresh: () async {},
+                  child: GridView.builder(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 2 / 2.5,
+                      ),
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: pState.products.length,
+                      itemBuilder: (context, index) => OpenContainer(
+                            closedElevation: 0,
+                            transitionDuration:
+                                const Duration(milliseconds: 500),
+                            closedBuilder: (context, action) => GridItemWidget(
+                              product: pState.products[index],
+                              user: pState.user,
+                            ),
+                            openBuilder: (context, action) => ScreenProduct(
+                              product: pState.products[index],
+                              user: pState.user,
+                            ),
+                          )),
+                )
               : shimmerWidget();
         },
       ),
@@ -125,6 +132,7 @@ class Home extends StatelessWidget {
       backgroundColor: Colors.grey.shade200,
       color: Colors.black,
       onRefresh: () {
+        BlocProvider.of<HomeBloc>(context).add(InitialHomeEvent());
         return Future.delayed(const Duration(seconds: 3));
       },
       child: ListView.builder(

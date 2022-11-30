@@ -65,7 +65,7 @@ class AppBarWidget extends StatelessWidget {
   final List<String> appbarTexts = [
     'IvyyOyyry',
     'Categories',
-    'Notifications',
+    'Orders',
     'Profile',
     'Cart',
   ];

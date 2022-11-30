@@ -50,9 +50,9 @@ class BottomNavigationWidget extends StatelessWidget {
 
             /// Search
             SalomonBottomBarItem(
-              icon: const Icon(Icons.notifications_outlined),
+              icon: const Icon(Icons.local_shipping_outlined),
               title: const Text(
-                "Alerts",
+                "Orders",
                 style: TextStyle(
                   fontSize: 10,
                 ),

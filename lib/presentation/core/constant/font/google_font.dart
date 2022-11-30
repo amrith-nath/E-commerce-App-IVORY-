@@ -78,6 +78,11 @@ class GoogleFont {
     fontWeight: FontWeight.w600,
     color: const Color.fromARGB(255, 2, 2, 2),
   );
+  static final TextStyle cardCountText = GoogleFonts.dmSans(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: const Color.fromARGB(255, 2, 2, 2),
+  );
   static final TextStyle cardSubText = GoogleFonts.dmSans(
     fontSize: 10,
     fontWeight: FontWeight.w600,

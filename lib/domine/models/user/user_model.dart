@@ -11,6 +11,7 @@ class UserModel extends Equatable {
   final List<String> allOrders;
   final Map<String, int> cart;
   final List<String> currentOrder;
+  final List<String> favourites;
 
   final Map<dynamic, dynamic> address;
   const UserModel({
@@ -22,6 +23,7 @@ class UserModel extends Equatable {
     required this.cart,
     required this.currentOrder,
     required this.address,
+    required this.favourites,
   });
 
   UserModel copyWith({
@@ -32,6 +34,7 @@ class UserModel extends Equatable {
     List<String>? allOrders,
     Map<String, int>? cart,
     List<String>? currentOrder,
+    List<String>? favourites,
     Map<dynamic, dynamic>? address,
   }) {
     return UserModel(
@@ -43,6 +46,7 @@ class UserModel extends Equatable {
       cart: cart ?? this.cart,
       currentOrder: currentOrder ?? this.currentOrder,
       address: address ?? this.address,
+      favourites: favourites ?? this.favourites,
     );
   }
 
@@ -56,6 +60,7 @@ class UserModel extends Equatable {
       'cart': cart,
       'currentOrder': currentOrder,
       'address': address,
+      'favourites': favourites,
     };
   }
 
@@ -69,6 +74,7 @@ class UserModel extends Equatable {
       'cart': cart,
       'currentOrder': currentOrder,
       'address': address,
+      'favourites': favourites,
     };
   }
 
@@ -83,6 +89,7 @@ class UserModel extends Equatable {
       currentOrder: List<String>.from((snap['currentOrder'] as List)),
       address: Map<dynamic, dynamic>.from(
           (snap['address'] as Map<dynamic, dynamic>)),
+      favourites: List<String>.from((snap['favourites'] as List)),
     );
   }
 
@@ -102,6 +109,7 @@ class UserModel extends Equatable {
       cart,
       currentOrder,
       address,
+      favourites,
     ];
   }
 }

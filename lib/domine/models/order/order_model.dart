@@ -1,10 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class OrderModel extends Equatable {
-  final String id;
+  final String? id;
   final String customerId;
   final List<String> productId;
   final double deliveryFee;
@@ -14,8 +15,10 @@ class OrderModel extends Equatable {
   final bool isShiped;
   final bool isDeliverd;
   final bool isRejected;
+
+  final DateTime orderPlacedAt;
   const OrderModel({
-    required this.id,
+    this.id,
     required this.customerId,
     required this.productId,
     required this.deliveryFee,
@@ -25,6 +28,7 @@ class OrderModel extends Equatable {
     required this.isShiped,
     required this.isDeliverd,
     required this.isRejected,
+    required this.orderPlacedAt,
   });
 
   OrderModel copyWith({
@@ -38,6 +42,7 @@ class OrderModel extends Equatable {
     bool? isShiped,
     bool? isDeliverd,
     bool? isRejected,
+    DateTime? orderPlacedAt,
   }) {
     return OrderModel(
       id: id ?? this.id,
@@ -50,13 +55,14 @@ class OrderModel extends Equatable {
       isShiped: isShiped ?? this.isShiped,
       isDeliverd: isDeliverd ?? this.isDeliverd,
       isRejected: isRejected ?? this.isRejected,
+      orderPlacedAt: orderPlacedAt ?? this.orderPlacedAt,
     );
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMap(DocumentReference doc) {
     return <String, dynamic>{
-      'id': id,
-      'customerId': customerId,
+      'id': doc.id,
+      'customerid': customerId,
       'productId': productId,
       'deliveryFee': deliveryFee,
       'total': total,
@@ -64,29 +70,25 @@ class OrderModel extends Equatable {
       'isAccepted': isAccepted,
       'isShiped': isShiped,
       'isDeliverd': isDeliverd,
-      'isRejected': isRejected,
+      'orderPlacedAt': orderPlacedAt.millisecondsSinceEpoch,
     };
   }
 
-  factory OrderModel.fromMap(Map<String, dynamic> map) {
+  factory OrderModel.fromSnapshot(DocumentSnapshot snap) {
     return OrderModel(
-      id: map['id'] as String,
-      customerId: map['customerId'] as String,
-      productId: List<String>.from((map['productId'] as List<String>)),
-      deliveryFee: map['deliveryFee'] as double,
-      total: map['total'] as double,
-      subTotal: map['subTotal'] as double,
-      isAccepted: map['isAccepted'] as bool,
-      isShiped: map['isShiped'] as bool,
-      isDeliverd: map['isDeliverd'] as bool,
-      isRejected: map['isRejected'] as bool,
+      id: snap['id'],
+      customerId: snap['customerId'] as String,
+      productId: List<String>.from((snap['productId'] as List)),
+      deliveryFee: double.parse(snap['deliveryFee'].toString()),
+      total: double.parse(snap['total'].toString()),
+      subTotal: double.parse(snap['subTotal'].toString()),
+      isAccepted: snap['isAccepted'] as bool,
+      isShiped: snap['isShiped'] as bool,
+      isDeliverd: snap['isDeliverd'] as bool,
+      isRejected: snap['isRejected'] as bool,
+      orderPlacedAt: DateTime.now(),
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory OrderModel.fromJson(String source) =>
-      OrderModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   bool get stringify => true;
@@ -94,7 +96,7 @@ class OrderModel extends Equatable {
   @override
   List<Object> get props {
     return [
-      id,
+      id!,
       customerId,
       productId,
       deliveryFee,
@@ -103,7 +105,34 @@ class OrderModel extends Equatable {
       isAccepted,
       isShiped,
       isDeliverd,
-      isRejected,
+      orderPlacedAt,
     ];
   }
+
+  static List<OrderModel> orders = [
+    OrderModel(
+      customerId: '2',
+      productId: const ['p0ACeO2WBeVSqG7tfjr7'],
+      deliveryFee: 2200,
+      total: 2100,
+      subTotal: 2000,
+      isAccepted: false,
+      isShiped: false,
+      isDeliverd: false,
+      isRejected: false,
+      orderPlacedAt: DateTime.now(),
+    ),
+    OrderModel(
+      customerId: '2',
+      productId: const ['p0ACeO2WBeVSqG7tfjr7', 'OibJPrhV9TJ4B0Jleqm5'],
+      deliveryFee: 3300,
+      total: 3400,
+      subTotal: 3000,
+      isAccepted: false,
+      isShiped: false,
+      isDeliverd: false,
+      isRejected: false,
+      orderPlacedAt: DateTime.now(),
+    ),
+  ];
 }

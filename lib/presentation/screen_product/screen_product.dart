@@ -1,9 +1,11 @@
+import 'dart:developer';
+
 import 'package:card_swiper/card_swiper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:ivory/applicatoin/controller/user_controller.dart';
 import 'package:ivory/domine/models/product/product_model.dart';
 import 'package:ivory/domine/models/user/user_model.dart';
 import 'package:ivory/infrastructure/repositories/user_repo/user_repo.dart';
@@ -13,12 +15,17 @@ import 'package:ivory/presentation/core/constant/size/constant_size.dart';
 import 'package:ivory/presentation/login_screen/login_creen.dart';
 import 'package:ivory/presentation/widgets/search_delegate.dart';
 
+import '../../applicatoin/bloc/homeBloc/home_bloc.dart';
+
 class ScreenProduct extends StatelessWidget {
-  ScreenProduct({Key? key, required this.product}) : super(key: key);
-  UserController userController = Get.put(UserController());
+  ScreenProduct({Key? key, required this.product, required this.user})
+      : super(key: key);
   UserRepo userRepo = UserRepo();
   ProductModel product;
-
+  UserModel? user;
+  var isButtonLoading = false;
+  var color = Colors.black;
+  var color2 = Colors.grey;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,26 +112,84 @@ class ScreenProduct extends StatelessWidget {
                         )
                       ],
                     ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: const CircleAvatar(
-                        backgroundColor: Colors.grey,
-                        radius: 25,
-                        child: PhysicalModel(
-                          elevation: 3,
-                          shape: BoxShape.circle,
-                          color: Colors.white,
-                          child: CircleAvatar(
-                            backgroundColor: Colors.white,
-                            radius: 24,
-                            child: Icon(
-                              Icons.favorite_outline_outlined,
-                              color: Colors.black,
-                              size: 20,
-                            ),
-                          ),
-                        ),
-                      ),
+                    BlocBuilder<HomeBloc, HomeState>(
+                      builder: (context, state) {
+                        user = state.user;
+                        if (user == null) {
+                          color = Colors.white;
+                        } else if (user!.favourites.contains(product.id)) {
+                          color2 = Colors.red;
+                          color = Colors.red;
+                        } else {}
+                        return StatefulBuilder(builder: (context, setstate) {
+                          return GestureDetector(
+                            onTap: () async {
+                              setstate(() {
+                                isButtonLoading = true;
+                              });
+                              if (FirebaseAuth.instance.currentUser == null) {
+                                Get.to(() => ScreenLogin());
+                              } else {
+                                var user = await userRepo.getuser();
+
+                                var favourites = user.favourites;
+                                if (favourites.contains(product.id)) {
+                                  favourites.remove(product.id);
+                                } else {
+                                  favourites.add(product.id);
+                                }
+                                await userRepo.updateUser(
+                                    user.copyWith(favourites: favourites));
+                                BlocProvider.of<HomeBloc>(context)
+                                    .add(InitialHomeEvent());
+                                if (user.favourites.contains(product.id)) {
+                                  color2 = Colors.red;
+                                  color = Colors.red;
+                                  log('product added to favaourites');
+                                } else {
+                                  color2 = Colors.grey;
+                                  color = Colors.black;
+                                  log('product removed from favaourites ');
+                                }
+                                setstate(() {
+                                  isButtonLoading = false;
+                                });
+                              }
+                            },
+                            child: isButtonLoading
+                                ? CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    radius: 25,
+                                    child: SizedBox(
+                                        width: 15,
+                                        height: 15,
+                                        child: Center(
+                                            child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: color,
+                                        ))),
+                                  )
+                                : CircleAvatar(
+                                    backgroundColor: color2,
+                                    radius: 25,
+                                    child: PhysicalModel(
+                                      elevation: 3,
+                                      shape: BoxShape.circle,
+                                      color: Colors.white,
+                                      child: CircleAvatar(
+                                        backgroundColor: Colors.white,
+                                        radius: 24,
+                                        child: Icon(
+                                          Icons.favorite_outline_outlined,
+                                          color: color,
+                                          size: 20,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                          );
+                        });
+                      },
                     ),
                   ],
                 ),
@@ -230,20 +295,7 @@ class ScreenProduct extends StatelessWidget {
                 height: 60,
                 child: ElevatedButton.icon(
                     onPressed: () {
-                      if (FirebaseAuth.instance.currentUser == null) {
-                        Get.to(() => ScreenLogin());
-                      } else {
-                        var user = userController.user.firstWhere((element) =>
-                            element.email ==
-                            FirebaseAuth.instance.currentUser!.email);
-                        var cart = user.cart;
-                        if (cart.keys.contains(product.id)) {
-                          cart[product.id] = cart[product.id]! + 1;
-                        } else {
-                          cart.addAll({product.id: 1});
-                        }
-                        userRepo.updateUser(user.copyWith(cart: cart));
-                      }
+                      addProduct();
                     },
                     style: ButtonStyle(
                       shape: MaterialStatePropertyAll(
@@ -264,6 +316,23 @@ class ScreenProduct extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  addProduct() async {
+    if (FirebaseAuth.instance.currentUser == null) {
+      Get.to(() => ScreenLogin());
+    } else {
+      var user = await userRepo.getuser();
+
+      var cart = user.cart;
+      if (cart.keys.contains(product.id)) {
+        cart[product.id] = cart[product.id]! + 1;
+      } else {
+        cart.addAll({product.id: 1});
+      }
+      await userRepo.updateUser(user.copyWith(cart: cart));
+      log('product added');
+    }
   }
 
   Icon ratingStarWidget(Color color) {

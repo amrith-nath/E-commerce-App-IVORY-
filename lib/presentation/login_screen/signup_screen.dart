@@ -177,6 +177,7 @@ class ScreenSignup extends StatelessWidget {
                                     'house no': _housecontroller.text,
                                     'pin': _pincontroller.text,
                                   },
+                                  favourites: const <String>[],
                                 ));
                             set(() {
                               isloading = false;
