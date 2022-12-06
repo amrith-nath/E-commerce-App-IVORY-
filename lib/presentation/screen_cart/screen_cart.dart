@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:ivory/domine/models/product/product_model.dart';
-import 'package:ivory/infrastructure/repositories/product_repo/product_repo.dart';
 import 'package:ivory/infrastructure/repositories/user_repo/user_repo.dart';
 import 'package:ivory/presentation/core/constant/color/colors.dart';
 import 'package:ivory/presentation/core/constant/size/constant_size.dart';
@@ -18,9 +17,10 @@ import '../core/constant/font/google_font.dart';
 class ScreenCart extends StatelessWidget {
   const ScreenCart({Key? key}) : super(key: key);
   // ProductController productController = Get.put(ProductController());
-
   @override
   Widget build(BuildContext context) {
+    var fAmount = 0.0;
+
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
         BlocProvider.of<CartBloc>(context).add(InitialCartEvent());
@@ -106,7 +106,7 @@ class ScreenCart extends StatelessWidget {
                     ProductModel product = bState.products
                         .firstWhere((element) => element.id == i);
 
-                    amount = amount + (product.price * count);
+                    fAmount = amount = amount + (product.price * count);
                   }
 
                   return Column(
@@ -157,6 +157,7 @@ class ScreenCart extends StatelessWidget {
                             context: context,
                             builder: (context) => ScreenCheckout(
                               user: state.user,
+                              amount: fAmount,
                             ),
                           );
                         }
@@ -205,9 +206,9 @@ class CartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    callBloc() {
-      BlocProvider.of<CartBloc>(context).add(InitialCartEvent());
-    }
+    // callBloc() {
+    //   BlocProvider.of<CartBloc>(context).add(InitialCartEvent());
+    // }
 
     return Padding(
       padding: const EdgeInsets.only(top: 10, left: 18, right: 18),

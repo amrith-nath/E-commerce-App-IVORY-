@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:ivory/domine/models/order/order_model.dart';
 import 'package:ivory/domine/models/user/user_model.dart';
 import 'package:ivory/presentation/core/constant/color/colors.dart';
 import 'package:ivory/presentation/core/constant/font/google_font.dart';
@@ -7,9 +7,11 @@ import 'package:ivory/presentation/core/constant/size/constant_size.dart';
 import 'package:ivory/presentation/screen_payment/screen_payment.dart';
 
 class ScreenCheckout extends StatelessWidget {
-  const ScreenCheckout({Key? key, required this.user}) : super(key: key);
+  const ScreenCheckout({Key? key, required this.user, required this.amount})
+      : super(key: key);
 
   final UserModel user;
+  final double amount;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -110,8 +112,21 @@ class ScreenCheckout extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     Navigator.of(context).pop();
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (ctx) => ScreenPayment()));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (ctx) => ScreenPayment(
+                              order: OrderModel(
+                                customerId: user.email,
+                                productId: user.cart.keys.toList(),
+                                deliveryFee: 50.0,
+                                total: amount,
+                                subTotal: amount + 50,
+                                isAccepted: false,
+                                isShiped: false,
+                                isDeliverd: false,
+                                isRejected: false,
+                                orderPlacedAt: DateTime.now(),
+                              ),
+                            )));
                   },
                   child: Container(
                     height: 40,
