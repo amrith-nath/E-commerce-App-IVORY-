@@ -9,6 +9,7 @@ import 'package:super_rich_text/super_rich_text.dart';
 
 import '../../../applicatoin/cubits/bottomNavigation/bottom_navigation_cubit.dart';
 import '../../core/constant/font/google_font.dart';
+import '../../widgets/search_delegate.dart';
 
 class AppBarWidget extends StatelessWidget {
   AppBarWidget({
@@ -21,11 +22,11 @@ class AppBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> appbarWidgets = [
-      searchExpandedWidget(),
-      searchExpandedWidget(),
-      searchExpandedWidget(),
-      searchExpandedWidget(),
-      searchExpandedWidget(),
+      searchExpandedWidget(context: context),
+      searchExpandedWidget(context: context),
+      searchExpandedWidget(context: context),
+      searchExpandedWidget(context: context),
+      searchExpandedWidget(context: context),
     ];
 
     return SizedBox(
@@ -116,15 +117,27 @@ class AppBarWidget extends StatelessWidget {
     );
   }
 
-  searchExpandedWidget({List<ProductModel> pList = const []}) {
-    return OpenContainer(
-      closedElevation: 0,
-      transitionType: ContainerTransitionType.fade,
-      transitionDuration: const Duration(milliseconds: 500),
-      closedBuilder: (context, action) => searchWidget(context),
-      openBuilder: (context, action) => ScreenSearch(pList: pList),
-      // openBuilder: (context, action) => const ScreenSearch(),
-    );
+  searchExpandedWidget({required BuildContext context}) {
+    // return OpenContainer(
+    //   closedElevation: 0,
+    //   transitionType: ContainerTransitionType.fade,
+    //   transitionDuration: const Duration(milliseconds: 500),
+    //   closedBuilder: (context, action) => searchWidget(context),
+    //   openBuilder: (context, action) => ScreenSearch(pList: pList),
+    //   // openBuilder: (context, action) => const ScreenSearch(),
+    // );
+
+    return GestureDetector(
+        onTap: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (ctx) => ScreenSearch()));
+          // showSearch(
+          //   context: context,
+          //   delegate: MainSearchDelegate(),
+          //   useRootNavigator: true,
+          // );
+        },
+        child: searchWidget(context));
   }
 
   Padding searchWidget(BuildContext context) {

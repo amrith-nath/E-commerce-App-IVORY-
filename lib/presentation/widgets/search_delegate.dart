@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ivory/infrastructure/repositories/product_repo/product_repo.dart';
+import 'package:ivory/presentation/core/constant/font/google_font.dart';
 
 import '../../domine/models/product/product_model.dart';
+import '../../domine/models/user/user_model.dart';
+import '../screen_product/screen_product.dart';
 
 class MainSearchDelegate extends SearchDelegate {
   // List<String> searchResults = [
@@ -12,8 +15,9 @@ class MainSearchDelegate extends SearchDelegate {
   //   'Watch',
   //   "Toys",
   // ];
-  MainSearchDelegate({required this.pList});
+  MainSearchDelegate(this.pList, this.user);
   List<ProductModel> pList;
+  UserModel user;
   ProductRepo productRepo = ProductRepo();
 
   @override
@@ -77,16 +81,54 @@ class MainSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    List<String> matchQuery = [];
+    List<ProductModel> searchResultsProducts = pList;
 
     // List<String> productList = await productRepo.getProductsAsList();
-
-    return ListView.builder(
-        physics: const BouncingScrollPhysics(),
-        itemCount: matchQuery.length,
-        itemBuilder: (context, index) => ListTile(
-              title: Text(matchQuery[index]),
-            ));
+    List<ProductModel> matchQuery = searchResultsProducts
+        .where((element) => element.name.contains(query))
+        .toList();
+    List<Widget> searchResults = matchQuery
+        .map((element) => Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                child: ListTile(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (ctx) => ScreenProduct(
+                        product: element,
+                        user: user,
+                      ),
+                    ));
+                  },
+                  leading: Image.network(element.images[0]),
+                  title: Text(
+                    element.name.toUpperCase(),
+                    style: GoogleFont.cardMainText,
+                  ),
+                  trailing: Text(
+                    element.price.toString().toUpperCase(),
+                    style: GoogleFont.cardSubText,
+                  ),
+                ),
+              ),
+            ))
+        .toList();
+    if (matchQuery.isEmpty) {
+      return Center(
+          child: Text(
+        "'$query' returns No Results",
+        style: GoogleFont.dropDownText,
+      ));
+    } else {
+      return ListView(
+        children: [
+          ...searchResults,
+          const Divider(
+            color: Colors.grey,
+          ),
+        ],
+      );
+    }
 
     // return FutureBuilder(
     //     future: productRepo.getProductsAsList(),
@@ -105,10 +147,20 @@ class MainSearchDelegate extends SearchDelegate {
     //     });
   }
 
+  Future<List<ProductModel>> getResults() async {
+    return await productRepo.getProductsAsList();
+  }
+
   @override
   Widget buildSuggestions(BuildContext context) {
-    List<String> searchResults = pList.map((e) => e.name).toList();
-
+    List<String> searchResults = [
+      'All',
+      'Fasion',
+      'Footwears',
+      'Bags',
+      'Watch',
+      "Toys",
+    ];
     List<String> matchQuery = [];
 
     for (String e in searchResults) {

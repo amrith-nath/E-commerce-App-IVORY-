@@ -270,23 +270,34 @@ class CartWidget extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    width: 300,
-                    height: 70,
-                    child: TextButton.icon(
-                        onPressed: () async {
-                          await removeProduct(product);
-                          callBloc();
-                        },
-                        icon: const Icon(
-                          Icons.delete_outline_outlined,
-                          color: Colors.grey,
-                        ),
-                        label: Text(
+                  InkWell(
+                    child: Card(
+                        child: SizedBox(
+                      height: 40,
+                      width: 100,
+                      child: Center(
+                        child: Text(
                           'Remove',
                           style: GoogleFont.loginSubTextGrey,
-                        )),
+                        ),
+                      ),
+                    )),
                   ),
+
+                  // TextButton.icon(
+                  //     style: TextButton.styleFrom(fixedSize: Size(110, 20)),
+                  //     onPressed: () async {
+                  //       await removeProduct(product);
+                  //       callBloc();
+                  //     },
+                  //     icon: const Icon(
+                  //       Icons.delete_outline_outlined,
+                  //       color: Colors.grey,
+                  //     ),
+                  //     label: Text(
+                  //       'Remove',
+                  //       style: GoogleFont.loginSubTextGrey,
+                  //     )),
                 ],
               )
             ],
