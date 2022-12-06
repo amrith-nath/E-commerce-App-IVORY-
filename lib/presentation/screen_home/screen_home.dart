@@ -10,6 +10,7 @@ import 'package:ivory/presentation/screen_home/widget/home.dart';
 
 import 'package:ivory/presentation/screen_categories/screen_categories.dart';
 
+import '../../applicatoin/bloc/homeBloc/home_bloc.dart';
 import '../screen_profile/profile_builder.dart';
 import 'widget/bottom_navigation_widget.dart';
 
@@ -44,7 +45,14 @@ class ScreenHome extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(size.width, 200),
-        child: AppBarWidget(size: size),
+        child: BlocBuilder<HomeBloc, HomeState>(
+          builder: (context, state) {
+            if (state is HomeLoadedState) {
+              return AppBarWidget(size: size);
+            }
+            return AppBarWidget(size: size);
+          },
+        ),
       ),
       body: BlocBuilder<BottomNavigationCubit, BottomNavigationState>(
         builder: (context, state) {

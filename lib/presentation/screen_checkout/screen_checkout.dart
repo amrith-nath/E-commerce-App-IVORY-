@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ivory/domine/models/user/user_model.dart';
 import 'package:ivory/presentation/core/constant/color/colors.dart';
 import 'package:ivory/presentation/core/constant/font/google_font.dart';
 import 'package:ivory/presentation/core/constant/size/constant_size.dart';
+import 'package:ivory/presentation/screen_payment/screen_payment.dart';
 
 class ScreenCheckout extends StatelessWidget {
-  const ScreenCheckout({Key? key}) : super(key: key);
+  const ScreenCheckout({Key? key, required this.user}) : super(key: key);
 
+  final UserModel user;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -45,19 +48,19 @@ class ScreenCheckout extends StatelessWidget {
                       height: 60,
                       margin: const EdgeInsets.only(
                           top: 10, bottom: 10, left: 10, right: 20),
-                      decoration:
-                          BoxDecoration(shape: BoxShape.circle, color: xYellow),
+                      decoration: const BoxDecoration(
+                          shape: BoxShape.circle, color: xYellow),
                       child: const Icon(Icons.location_on_rounded),
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Home",
+                          user.address['city'].toString().toUpperCase(),
                           style: GoogleFont.textButtonStyle,
                         ),
                         Text(
-                          "6180 Penton Park, PC 567/9",
+                          " ${user.address['house no']}  ${user.address['state']} ${user.address['pin']}",
                           style: GoogleFont.cardMainText,
                         ),
                       ],
@@ -77,53 +80,60 @@ class ScreenCheckout extends StatelessWidget {
                     ),
                   ],
                 ),
+                // kHeight20,
+                // Container(
+                //   height: 40,
+                //   width: double.infinity,
+                //   decoration: BoxDecoration(
+                //     color: Colors.grey.shade200,
+                //     border: Border.all(color: Colors.grey.shade100),
+                //     borderRadius: BorderRadius.circular(5),
+                //   ),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       SvgPicture.asset(
+                //         "asset/svgs/logo-google.svg",
+                //         width: 20,
+                //       ),
+                //       const SizedBox(
+                //         width: 10,
+                //       ),
+                //       Text(
+                //         'Continue With Razor pay',
+                //         style: GoogleFont.cardMainText,
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 kHeight20,
-                Container(
-                  height: 40,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    border: Border.all(color: Colors.grey.shade100),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        "asset/svgs/logo-google.svg",
-                        width: 20,
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        'Continue With Gpay',
-                        style: GoogleFont.cardMainText,
-                      ),
-                    ],
-                  ),
-                ),
-                kHeight20,
-                Container(
-                  height: 40,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    border: Border.all(color: Colors.grey.shade100),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.payment),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        'Continue With Rpay',
-                        style: GoogleFont.cardMainText,
-                      ),
-                    ],
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (ctx) => ScreenPayment()));
+                  },
+                  child: Container(
+                    height: 40,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      border: Border.all(color: Colors.grey.shade100),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.payment),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          'Continue With Razor Pay',
+                          style: GoogleFont.cardMainText,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

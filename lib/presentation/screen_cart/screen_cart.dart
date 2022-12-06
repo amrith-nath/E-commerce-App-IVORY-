@@ -127,7 +127,7 @@ class ScreenCart extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      '\$ 2,400',
+                      '\$ 0',
                       style: GoogleFont.homeBodyText,
                     ),
                     Text(
@@ -138,35 +138,45 @@ class ScreenCart extends StatelessWidget {
                 );
               },
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width / 1.8,
-              height: 60,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  showMaterialModalBottomSheet(
-                    clipBehavior: Clip.hardEdge,
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30))),
-                    elevation: 5,
-                    context: context,
-                    builder: (context) => ScreenCheckout(),
-                  );
-                },
-                style: ButtonStyle(
-                  shape: MaterialStatePropertyAll(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+            BlocBuilder<CartBloc, CartState>(
+              builder: (context, state) {
+                return SizedBox(
+                  width: MediaQuery.of(context).size.width / 1.8,
+                  height: 60,
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      if (state is CartLoadedState) {
+                        if (state.cart.isNotEmpty) {
+                          showMaterialModalBottomSheet(
+                            clipBehavior: Clip.hardEdge,
+                            shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(30),
+                                    topRight: Radius.circular(30))),
+                            elevation: 5,
+                            context: context,
+                            builder: (context) => ScreenCheckout(
+                              user: state.user,
+                            ),
+                          );
+                        }
+                      }
+                    },
+                    style: ButtonStyle(
+                      shape: MaterialStatePropertyAll(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                    ),
+                    icon: const Icon(Icons.circle_outlined),
+                    label: Text(
+                      'Checkout',
+                      style: GoogleFont.loginSubTextBlack,
                     ),
                   ),
-                ),
-                icon: const Icon(Icons.circle_outlined),
-                label: Text(
-                  'Checkout',
-                  style: GoogleFont.loginSubTextBlack,
-                ),
-              ),
+                );
+              },
             ),
           ],
         ),
@@ -322,8 +332,9 @@ class ItemCountWidget extends StatelessWidget {
             radius: 15,
             child: IconButton(
               onPressed: () async {
-                await addProduct(product);
                 callBloc();
+
+                await addProduct(product);
               },
               icon: Transform.rotate(
                   angle: 90 * 3.1415927 / 180,
@@ -347,8 +358,13 @@ class ItemCountWidget extends StatelessWidget {
             radius: 15,
             child: IconButton(
               onPressed: () async {
-                await minusProduct(product);
                 callBloc();
+
+                if (count <= 1) {
+                  await removeProduct(product);
+                } else {
+                  await minusProduct(product);
+                }
               },
               icon: Transform.rotate(
                   angle: 90 * 3.1415927 / 180,
@@ -391,6 +407,6 @@ class ItemCountWidget extends StatelessWidget {
     await userRepo.updateUser(user.copyWith(cart: cart));
     count = cart[product.id]!;
 
-    log('product added');
+    log('product removed');
   }
 }

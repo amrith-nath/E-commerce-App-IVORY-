@@ -2,6 +2,8 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ivory/domine/models/product/product_model.dart';
+// import 'package:ivory/infrastructure/repositories/product_repo/product_repo.dart';
 import 'package:ivory/presentation/screen_search/search_screen.dart';
 import 'package:super_rich_text/super_rich_text.dart';
 
@@ -114,13 +116,13 @@ class AppBarWidget extends StatelessWidget {
     );
   }
 
-  OpenContainer searchExpandedWidget() {
+  searchExpandedWidget({List<ProductModel> pList = const []}) {
     return OpenContainer(
       closedElevation: 0,
       transitionType: ContainerTransitionType.fade,
       transitionDuration: const Duration(milliseconds: 500),
       closedBuilder: (context, action) => searchWidget(context),
-      openBuilder: (context, action) => const ScreenSearch(),
+      openBuilder: (context, action) => ScreenSearch(pList: pList),
       // openBuilder: (context, action) => const ScreenSearch(),
     );
   }

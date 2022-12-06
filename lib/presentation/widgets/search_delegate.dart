@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:ivory/infrastructure/repositories/product_repo/product_repo.dart';
+
+import '../../domine/models/product/product_model.dart';
 
 class MainSearchDelegate extends SearchDelegate {
-  List<String> searchResults = [
-    'All',
-    'Fasion',
-    'Footwears',
-    'Bags',
-    'Watch',
-    "Toys",
-  ];
+  // List<String> searchResults = [
+  //   'All',
+  //   'Fasion',
+  //   'Footwears',
+  //   'Bags',
+  //   'Watch',
+  //   "Toys",
+  // ];
+  MainSearchDelegate({required this.pList});
+  List<ProductModel> pList;
+  ProductRepo productRepo = ProductRepo();
 
   @override
   ThemeData appBarTheme(context) {
@@ -73,11 +79,7 @@ class MainSearchDelegate extends SearchDelegate {
   Widget buildResults(BuildContext context) {
     List<String> matchQuery = [];
 
-    for (String e in searchResults) {
-      if (e.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(e);
-      }
-    }
+    // List<String> productList = await productRepo.getProductsAsList();
 
     return ListView.builder(
         physics: const BouncingScrollPhysics(),
@@ -85,10 +87,28 @@ class MainSearchDelegate extends SearchDelegate {
         itemBuilder: (context, index) => ListTile(
               title: Text(matchQuery[index]),
             ));
+
+    // return FutureBuilder(
+    //     future: productRepo.getProductsAsList(),
+    //     builder: (context, snapshot) {
+    //       for (var e in snapshot.data!) {
+    //         if (e.name.toLowerCase().contains(query.toLowerCase())) {
+    //           matchQuery.add(e.name);
+    //         }
+    //       }
+    //       return ListView.builder(
+    //           physics: const BouncingScrollPhysics(),
+    //           itemCount: matchQuery.length,
+    //           itemBuilder: (context, index) => ListTile(
+    //                 title: Text(matchQuery[index]),
+    //               ));
+    //     });
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    List<String> searchResults = pList.map((e) => e.name).toList();
+
     List<String> matchQuery = [];
 
     for (String e in searchResults) {

@@ -46,4 +46,22 @@ class ProductRepo extends IProductRepo {
       throw Exception(e.toString());
     }
   }
+
+  Future<List<ProductModel>> getProductsAsList1() async {
+    List<ProductModel> products = [];
+    try {
+      var rawProducts = await fireStore.collection('products').get();
+      for (var element in rawProducts.docs) {
+        products.add(ProductModel.fromSnapShot(element));
+      }
+      return products;
+    } on FirebaseException catch (e) {
+      if (kDebugMode) {
+        log(e.message.toString());
+      }
+      return products;
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
 }

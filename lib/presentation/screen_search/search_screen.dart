@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../domine/models/product/product_model.dart';
 import '../widgets/search_delegate.dart';
 
 class ScreenSearch extends StatelessWidget {
-  const ScreenSearch({Key? key}) : super(key: key);
-
+  ScreenSearch({Key? key, required this.pList}) : super(key: key);
+  List<ProductModel> pList;
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback(
@@ -12,7 +13,7 @@ class ScreenSearch extends StatelessWidget {
         await Future.delayed(const Duration(milliseconds: 350));
         showSearch(
           context: context,
-          delegate: MainSearchDelegate(),
+          delegate: MainSearchDelegate(pList: pList),
           useRootNavigator: true,
         );
       },
