@@ -31,7 +31,7 @@ class ScreenHome extends StatelessWidget {
       ScreenCategories(
         key: const Key('wishlist'),
       ),
-      const ScreenAlerts(
+      ScreenAlerts(
         key: Key('alerts'),
       ),
       const ProfileBulder(

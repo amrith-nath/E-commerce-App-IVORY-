@@ -206,9 +206,9 @@ class CartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // callBloc() {
-    //   BlocProvider.of<CartBloc>(context).add(InitialCartEvent());
-    // }
+    callBloc() {
+      BlocProvider.of<CartBloc>(context).add(InitialCartEvent());
+    }
 
     return Padding(
       padding: const EdgeInsets.only(top: 10, left: 18, right: 18),
@@ -272,14 +272,18 @@ class CartWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   InkWell(
+                    onTap: () async {
+                      await removeProduct(product);
+                      callBloc();
+                    },
                     child: Card(
                         child: SizedBox(
-                      height: 40,
+                      height: 30,
                       width: 100,
                       child: Center(
                         child: Text(
                           'Remove',
-                          style: GoogleFont.loginSubTextGrey,
+                          style: GoogleFont.cardCountText,
                         ),
                       ),
                     )),

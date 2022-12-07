@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ivory/applicatoin/bloc/user_bloc/user_bloc.dart';
 import 'package:ivory/applicatoin/cubits/bottomNavigation/bottom_navigation_cubit.dart';
 import 'package:get/get.dart';
+import 'package:ivory/presentation/core/keys/scaffold_key.dart';
 
 import 'package:ivory/presentation/core/themes/themes.dart';
 import 'package:ivory/presentation/screen_splash/screen_splash.dart';
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Ivory',
         theme: xThemeData,
+        scaffoldMessengerKey: homeScaffoldMessengerKey,
         home: const ScreenSplash(),
       ),
     );

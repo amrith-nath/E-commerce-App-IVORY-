@@ -12,11 +12,11 @@ class OrderRepo extends IOrderRepo {
 
   @override
   Future<void> createOrder(OrderModel order) async {
-    final orderDoc = fireStore.collection("users").doc();
+    final orderDoc = fireStore.collection('orders').doc();
 
     await orderDoc
         .set(order.toMap(orderDoc))
-        .then((value) => log('User created'));
+        .then((value) => log('Order created'));
   }
 
   @override

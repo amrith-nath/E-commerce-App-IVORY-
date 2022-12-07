@@ -16,7 +16,6 @@ class OrderModel extends Equatable {
   final bool isDeliverd;
   final bool isRejected;
 
-  final DateTime orderPlacedAt;
   const OrderModel({
     this.id,
     required this.customerId,
@@ -28,7 +27,6 @@ class OrderModel extends Equatable {
     required this.isShiped,
     required this.isDeliverd,
     required this.isRejected,
-    required this.orderPlacedAt,
   });
 
   OrderModel copyWith({
@@ -55,14 +53,13 @@ class OrderModel extends Equatable {
       isShiped: isShiped ?? this.isShiped,
       isDeliverd: isDeliverd ?? this.isDeliverd,
       isRejected: isRejected ?? this.isRejected,
-      orderPlacedAt: orderPlacedAt ?? this.orderPlacedAt,
     );
   }
 
   Map<String, dynamic> toMap(DocumentReference doc) {
     return <String, dynamic>{
       'id': doc.id,
-      'customerid': customerId,
+      'customerId': customerId,
       'productId': productId,
       'deliveryFee': deliveryFee,
       'total': total,
@@ -70,7 +67,7 @@ class OrderModel extends Equatable {
       'isAccepted': isAccepted,
       'isShiped': isShiped,
       'isDeliverd': isDeliverd,
-      'orderPlacedAt': orderPlacedAt.millisecondsSinceEpoch,
+      'isRejected': isRejected,
     };
   }
 
@@ -86,7 +83,6 @@ class OrderModel extends Equatable {
       isShiped: snap['isShiped'] as bool,
       isDeliverd: snap['isDeliverd'] as bool,
       isRejected: snap['isRejected'] as bool,
-      orderPlacedAt: DateTime.now(),
     );
   }
 
@@ -105,34 +101,7 @@ class OrderModel extends Equatable {
       isAccepted,
       isShiped,
       isDeliverd,
-      orderPlacedAt,
+      isRejected,
     ];
   }
-
-  static List<OrderModel> orders = [
-    OrderModel(
-      customerId: '2',
-      productId: const ['p0ACeO2WBeVSqG7tfjr7'],
-      deliveryFee: 2200,
-      total: 2100,
-      subTotal: 2000,
-      isAccepted: false,
-      isShiped: false,
-      isDeliverd: false,
-      isRejected: false,
-      orderPlacedAt: DateTime.now(),
-    ),
-    OrderModel(
-      customerId: '2',
-      productId: const ['p0ACeO2WBeVSqG7tfjr7', 'OibJPrhV9TJ4B0Jleqm5'],
-      deliveryFee: 3300,
-      total: 3400,
-      subTotal: 3000,
-      isAccepted: false,
-      isShiped: false,
-      isDeliverd: false,
-      isRejected: false,
-      orderPlacedAt: DateTime.now(),
-    ),
-  ];
 }

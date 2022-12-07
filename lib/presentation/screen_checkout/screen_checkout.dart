@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:ivory/domine/models/order/order_model.dart';
 import 'package:ivory/domine/models/user/user_model.dart';
+import 'package:ivory/infrastructure/repositories/payment_repo/payment_repo.dart';
 import 'package:ivory/presentation/core/constant/color/colors.dart';
 import 'package:ivory/presentation/core/constant/font/google_font.dart';
 import 'package:ivory/presentation/core/constant/size/constant_size.dart';
-import 'package:ivory/presentation/screen_payment/screen_payment.dart';
 
 class ScreenCheckout extends StatelessWidget {
-  const ScreenCheckout({Key? key, required this.user, required this.amount})
+  ScreenCheckout({Key? key, required this.user, required this.amount})
       : super(key: key);
 
   final UserModel user;
   final double amount;
+
   @override
   Widget build(BuildContext context) {
+    final paymentRepo = PaymentRepo(amount);
     return Container(
       width: double.infinity,
       height: MediaQuery.of(context).size.height / 1.1,
@@ -111,22 +113,33 @@ class ScreenCheckout extends StatelessWidget {
                 kHeight20,
                 GestureDetector(
                   onTap: () {
+                    var options = {
+                      'key': 'rzp_test_NlHDNdljS6SJ8k',
+                      'amount': amount * 100,
+                      'name': 'Ivory',
+                      'description': user.email,
+                      'prefill': {
+                        'contact': '8888888888',
+                        'email': 'test@razorpay.com'
+                      }
+                    };
                     Navigator.of(context).pop();
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (ctx) => ScreenPayment(
-                              order: OrderModel(
-                                customerId: user.email,
-                                productId: user.cart.keys.toList(),
-                                deliveryFee: 50.0,
-                                total: amount,
-                                subTotal: amount + 50,
-                                isAccepted: false,
-                                isShiped: false,
-                                isDeliverd: false,
-                                isRejected: false,
-                                orderPlacedAt: DateTime.now(),
-                              ),
-                            )));
+                    // Navigator.of(context).push(MaterialPageRoute(
+                    //     builder: (ctx) => ScreenPayment(
+                    //           order: OrderModel(
+                    //             customerId: user.email,
+                    //             productId: user.cart.keys.toList(),
+                    //             deliveryFee: 50.0,
+                    //             total: amount,
+                    //             subTotal: amount + 50,
+                    //             isAccepted: false,
+                    //             isShiped: false,
+                    //             isDeliverd: false,
+                    //             isRejected: false,
+                    //             orderPlacedAt: DateTime.now(),
+                    //           ),
+                    //         )));
+                    paymentRepo.startPayment(options);
                   },
                   child: Container(
                     height: 40,
