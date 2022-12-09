@@ -37,17 +37,21 @@ class PaymentRepo extends IPaymentRepo {
       isRejected: false,
     ));
     await userRepo.updateUser(UserModel(
-        id: user.id,
-        image: user.image,
-        name: user.name,
-        email: user.email,
-        allOrders: user.allOrders,
-        cart: const {},
-        currentOrder: user.currentOrder,
-        address: user.address,
-        favourites: user.favourites));
+      id: user.id,
+      image: user.image,
+      name: user.name,
+      email: user.email,
+      allOrders: user.allOrders,
+      cart: const {},
+      currentOrder: user.currentOrder,
+      address: user.address,
+      favourites: user.favourites,
+    ));
     homeScaffoldMessengerKey.currentState?.showSnackBar(const SnackBar(
         backgroundColor: Colors.green, content: Text('payment success')));
+
+    BlocProvider.of<CartBloc>(homeScaffoldMessengerKey.currentState!.context)
+        .add(InitialCartEvent());
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
@@ -60,7 +64,9 @@ class PaymentRepo extends IPaymentRepo {
   }
 
   @override
-  void startPayment(Map<String, Object> options) {
+  void startPayment(
+    Map<String, Object> options,
+  ) {
     _razorpay.open(options);
   }
 }
